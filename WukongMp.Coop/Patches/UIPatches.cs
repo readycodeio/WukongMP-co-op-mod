@@ -93,27 +93,27 @@ public static class PatchStartGameUiCoop
 /// <summary>
 /// Hide challenges shrine options in coop mode.
 /// </summary>
-[HarmonyPatch]
-[HarmonyPatchCategory(PatchCategory.Global)]
-public class PatchShrineRegisterFunc
-{
-    [HarmonyTargetMethodHint(typeof(FMenuHelper<EShrineMenuTag>), "RegisterFunc")]
-    public static MethodBase TargetMethod()
-    {
-        var specializedType = typeof(FMenuHelper<EShrineMenuTag>);
-        return specializedType.GetMethod("RegisterFunc")!;
-    }
+// [HarmonyPatch]
+// [HarmonyPatchCategory(PatchCategory.Global)]
+// public class PatchShrineRegisterFunc
+// {
+//     [HarmonyTargetMethodHint(typeof(FMenuHelper<EShrineMenuTag>), "RegisterFunc")]
+//     public static MethodBase TargetMethod()
+//     {
+//         var specializedType = typeof(FMenuHelper<EShrineMenuTag>);
+//         return specializedType.GetMethod("RegisterFunc")!;
+//     }
 
-    public static bool Prefix(int FuncId)
-    {
-        if (!WukongApi.Sync.InArea)
-            return true;
+//     public static bool Prefix(int FuncId)
+//     {
+//         if (!WukongApi.Sync.InArea)
+//             return true;
 
-        var interactionFuncDesc = GameDBRuntime.GetInteractionFuncDesc(FuncId);
-        return interactionFuncDesc.MenuBtnActionType != EMenuBtnActionType.BossIterations
-               && interactionFuncDesc.MenuBtnActionType != EMenuBtnActionType.BossRechallenge;
-    }
-}
+//         var interactionFuncDesc = GameDBRuntime.GetInteractionFuncDesc(FuncId);
+//         return interactionFuncDesc.MenuBtnActionType != EMenuBtnActionType.BossIterations
+//                && interactionFuncDesc.MenuBtnActionType != EMenuBtnActionType.BossRechallenge;
+//     }
+// }
 
 [HarmonyPatch(typeof(BUI_BattleInfoCS), "InitBloodBarUI")]
 [HarmonyPatchCategory(PatchCategory.Global)]

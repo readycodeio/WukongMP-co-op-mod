@@ -7,12 +7,13 @@ using UnrealEngine.Runtime;
 using WukongMp.Api.WukongUtils;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
+using LiteNetLib;
 
 namespace WukongMp.Coop.Commands;
 
 public static class CoopCommandRegistrations
 {
-    public static void RegisterCommands(IWukongConsoleApi consoleApi)
+    private static bool SimulateLatency = false;    public static void RegisterCommands(IWukongConsoleApi consoleApi)
     {
         consoleApi.AddCommand("cutscene", ConsoleCommand.Create(PlayCutscene, true));
         consoleApi.AddCommand("teleport", ConsoleCommand.Create(Teleport, true));
@@ -40,7 +41,6 @@ public static class CoopCommandRegistrations
     private static void CustomScaling(int scale = 100)
     {        
         var owner = WukongApi.Sync.IsMasterClient;
-
         var areaPlayers = WukongApi.Sync.AreaPlayers.Count;
         
         if (!owner)
@@ -48,6 +48,7 @@ public static class CoopCommandRegistrations
             WukongApi.Chat.ShowLocalMessage("Only the host can change Boss HP scaling.", FLinearColor.OrangeRed);
             return;
         }
+        
         if (scale <= 0)
         {
             WukongApi.Chat.ShowLocalMessage($"Boss HP scaling modifier {scale} is invalid.", FLinearColor.OrangeRed);

@@ -30,7 +30,7 @@ public sealed class ColliderDisableData(ILogger logger)
     {
         var collidersToEnable = new List<AActor>();
         foreach (var collider in _colliderDisableTimes.Keys.ToList())
-        {
+        {            
             var remainingTime = _colliderDisableTimes[collider] - deltaTime;
             if (remainingTime <= 0f)
             {
