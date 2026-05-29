@@ -10,11 +10,17 @@ namespace WukongMp.Coop.Systems;
 // ReSharper disable once UnusedType.Global
 public sealed class ScaleMonsterHpSystem(ILogger logger) : ModSystemBase
 {
+    
     protected override void OnUpdate(UpdateTick tick)
     {
+        var scaling = Config.BossHPModifier;
         var areaPlayers = WukongApi.Sync.AreaPlayers.Count;
+        var targetScaling = 1 + scaling * (areaPlayers - 1); // Original formula
 
-        var targetScaling = 1 + 1.5f * (areaPlayers - 1);
+        if (Config.BossHPChanged)
+        {
+            targetScaling = scaling + scaling * (areaPlayers - 1); // Scaling formula
+        }
 
 #if DEBUG
         if (Config.ScaleMonsterHpToHalf)
