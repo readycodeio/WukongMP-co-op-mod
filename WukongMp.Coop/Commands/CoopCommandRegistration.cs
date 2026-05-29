@@ -13,7 +13,7 @@ namespace WukongMp.Coop.Commands;
 
 public static class CoopCommandRegistrations
 {
-    private static bool SimulateLatency = false;    public static void RegisterCommands(IWukongConsoleApi consoleApi)
+    public static void RegisterCommands(IWukongConsoleApi consoleApi)
     {
         consoleApi.AddCommand("cutscene", ConsoleCommand.Create(PlayCutscene, true));
         consoleApi.AddCommand("teleport", ConsoleCommand.Create(Teleport, true));
@@ -48,7 +48,7 @@ public static class CoopCommandRegistrations
             WukongApi.Chat.ShowLocalMessage("Only the host can change Boss HP scaling.", FLinearColor.OrangeRed);
             return;
         }
-        
+
         if (scale <= 0)
         {
             WukongApi.Chat.ShowLocalMessage($"Boss HP scaling modifier {scale} is invalid.", FLinearColor.OrangeRed);
