@@ -29,6 +29,7 @@ public sealed class Mod : ModBase
         services.RegisterSingleton<CoopSaveManager>();
         services.RegisterSingleton<CoopWidgetManager>();
         services.RegisterSingleton<CoopEventCallbacks>();
+        services.RegisterSingleton<CoopServerRpc>();
 
         Logger.LogInformation("Initializing {ModName}", Name);
 
