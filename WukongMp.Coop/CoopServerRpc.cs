@@ -10,7 +10,7 @@ using WukongMp.Coop.Common;
 
 namespace WukongMp.Coop;
 
-public partial class CoopServerRpc(IRpcClient rpc) : ServerRpcClientBase(rpc)
+public partial class CoopServerRpc : ServerRpcClient
 {
     partial void OnBeguilingChant(byte state)
     {
