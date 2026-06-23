@@ -10,6 +10,7 @@ using GSE.GSUI;
 using HarmonyLib;
 using LiteNetLib;
 using PreludeLib.Attributes;
+using ReadyM.Api.Multiplayer.Protocol;
 using ResB1;
 using UnrealEngine.Engine;
 using UnrealEngine.Runtime;
@@ -61,7 +62,18 @@ public static class PatchStartGameUiCoop
                     {
                         Utils.TryRunOnGameThread(() =>
                         {
-                            WukongApi.Local.ShowInfoMessage(reason == DisconnectReason.ConnectionRejected ? BuiltinTexts.ConnectionRejectedByServer : BuiltinTexts.Disconnected);
+                            WukongApi.Local.ShowInfoMessage(reason switch
+                            {
+                                DisconnectedReason.Unknown => BuiltinTexts.Disconnected,
+                                DisconnectedReason.IncompatibleVersion => BuiltinTexts.IncompatibleVersion,
+                                DisconnectedReason.ExpiredTicket => BuiltinTexts.ConnectionRejectedByServer,
+                                DisconnectedReason.AlreadyConnected => BuiltinTexts.AlreadyConnected,
+                                DisconnectedReason.ClientDisconnected => BuiltinTexts.Disconnected,
+                                DisconnectedReason.ServerFull => BuiltinTexts.ServerFull,
+                                DisconnectedReason.Kicked => BuiltinTexts.Kicked,
+                                DisconnectedReason.Banned => BuiltinTexts.Banned,
+                                _ => throw new ArgumentOutOfRangeException(nameof(reason), reason, null)
+                            });
                         });
                     });
                     Logging.LogError("Disconnected. Could not continue game.");
