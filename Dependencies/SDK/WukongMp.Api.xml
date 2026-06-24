@@ -470,9 +470,19 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.AlreadyConnected">
+            <summary>
+              Looks up a localized string similar to Already connected to the server elsewhere..
+            </summary>
+        </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.AntiStallWarning">
             <summary>
               Looks up a localized string similar to Engage!.
+            </summary>
+        </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.Banned">
+            <summary>
+              Looks up a localized string similar to You were banned from the server..
             </summary>
         </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.BlueTeam">
@@ -590,9 +600,19 @@
               Looks up a localized string similar to Execution error: {0}.
             </summary>
         </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.HelpCommandHeader">
+            <summary>
+              Looks up a localized string similar to Available commands: {0}.
+            </summary>
+        </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.HintCommandsUse">
             <summary>
               Looks up a localized string similar to Press F1 to use commands.
+            </summary>
+        </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.IncompatibleVersion">
+            <summary>
+              Looks up a localized string similar to Unable to connect. Incompatible SDK version..
             </summary>
         </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.InfManaDisabled">
@@ -688,6 +708,11 @@
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.JoinOtherPlayersToProceed">
             <summary>
               Looks up a localized string similar to Join other players to proceed.
+            </summary>
+        </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.Kicked">
+            <summary>
+              Looks up a localized string similar to You were kicked from the server..
             </summary>
         </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.MasterClient">
@@ -808,6 +833,11 @@
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.RoundEndedWinner">
             <summary>
               Looks up a localized string similar to Round ended. {0} won.
+            </summary>
+        </member>
+        <member name="P:WukongMp.Api.Resources.BuiltinTexts.ServerFull">
+            <summary>
+              Looks up a localized string similar to Server is full, try again later..
             </summary>
         </member>
         <member name="P:WukongMp.Api.Resources.BuiltinTexts.SeverePacketLossDetected">
