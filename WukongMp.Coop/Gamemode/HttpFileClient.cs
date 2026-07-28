@@ -32,7 +32,7 @@ public class HttpFileClient : IFileClient
             logger.LogError("Invalid or missing SERVER_ID launch parameter");
         }
 
-        apiBaseUrl = WukongApi.Configuration.GetLaunchParameter("API_BASE_URL", "");
+        apiBaseUrl = WukongApi.Configuration.GetLaunchParameter("API_BASE_URL", "").TrimEnd('/');
         if (string.IsNullOrWhiteSpace(apiBaseUrl))
         {
             logger.LogError("Invalid or missing API_BASE_URL launch parameter");
