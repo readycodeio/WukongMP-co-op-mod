@@ -157,12 +157,11 @@
         <member name="M:ReadyM.Api.Multiplayer.Client.RelayMessage.ToPeers(ReadyM.Api.Multiplayer.Protocol.Enums.RelayMessageCode,ReadyM.Api.Idents.PlayerId,ReadyM.Api.Idents.PlayerId[],LiteNetLib.DeliveryMethod)">
             <summary>
             Send an event to a specific player or group of players.
-            This overload does not support event caching, as cached events must either be sent to all other players or all players.
             </summary>
         </member>
         <member name="M:ReadyM.Api.Multiplayer.Client.RelayMessage.ByRelayMode(ReadyM.Api.Multiplayer.Protocol.Enums.RelayMessageCode,ReadyM.Api.Idents.PlayerId,ReadyM.Api.Multiplayer.Protocol.Enums.RelayMode,LiteNetLib.DeliveryMethod)">
             <summary>
-            Send an event with a specific delivery method. This overload does not support event caching.
+            Send an event with a specific delivery method.
             </summary>
         </member>
         <member name="T:ReadyM.Api.Multiplayer.ECS.Components.INetworkedComponent">
@@ -336,8 +335,8 @@
             Spans 4 bytes in standard relay modes and (6 + 2 * peers) in peer-targeted relay mode.
             - 1 byte for eventCode
             - 2 bytes for sender
-            - 1 byte for relayMode and eventCaching (bit packed)
             - 2 bytes for peers count
+            - 1 byte for relayMode
             - peers * 2 bytes for peers
             </summary>
         </member>
@@ -346,8 +345,8 @@
             Spans 4 bytes in standard relay modes and (6 + 2 * peers) in peer-targeted relay mode.
             - 1 byte for eventCode
             - 2 bytes for sender
-            - 1 byte for relayMode and eventCaching (bit packed)
             - 2 bytes for peers count
+            - 1 byte for relayMode
             - peers * 2 bytes for peers
             </summary>
         </member>
@@ -356,6 +355,56 @@
         </member>
         <member name="M:ReadyM.Api.Multiplayer.Protocol.CustomRelayEventHeader.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Multiplayer.Protocol.CustomRelayEventHeader,System.Text.Json.JsonSerializerOptions)">
             <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason">
+            <summary>
+            Denotes a reason for being disconnected from the server.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.Unknown">
+            <summary>
+            Reason for disconnection was unknown.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.Timeout">
+            <summary>
+            Connection to the server timed out.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.ClientDisconnected">
+            <summary>
+            Client disconnected voluntarily.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.IncompatibleVersion">
+            <summary>
+            The client-side SDK mod version is incompatible with the server. 
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.ExpiredTicket">
+            <summary>
+            Connection ticket issued by the server has expired.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.AlreadyConnected">
+            <summary>
+            Player is already connected to the server in another session.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.ServerFull">
+            <summary>
+            Server is full and does not allow new connections.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.Kicked">
+            <summary>
+            Player was kicked from the server by an admin.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Multiplayer.Protocol.DisconnectedReason.Banned">
+            <summary>
+            Player was banned from the server by an admin.
+            </summary>
         </member>
         <member name="T:ReadyM.Api.Multiplayer.Protocol.Enums.RelayMessageCode">
             <summary>
@@ -399,6 +448,9 @@
             <summary>
             Sends the message to a specific list of players.
             </summary>
+            <remarks>
+            Not part of stable API.
+            </remarks>
         </member>
         <member name="T:ReadyM.Api.Multiplayer.Protocol.ServerEventHeader">
             <summary>
