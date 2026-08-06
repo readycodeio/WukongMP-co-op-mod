@@ -12,6 +12,10 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\WukongMp.Coop.Common\WukongMp.Coop.Common.csproj"/>
+    </ItemGroup>
+
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
         <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
@@ -21,7 +25,6 @@
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
         <ProjectReference Include="..\..\WukongMp.Sdk\WukongMp.Sdk.csproj"/>
-        <ProjectReference Include="..\..\readym-gameserver\src\WukongMp.Coop.Common\WukongMp.Coop.Common.csproj" />
         <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
     </ItemGroup>
 
@@ -44,9 +47,6 @@
         </Reference>
         <Reference Include="ReadyM.Wukong.Common">
             <HintPath>$(SdkDllPath)\ReadyM.Wukong.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="WukongMp.Coop.Common">
-            <HintPath>$(SdkDllPath)\WukongMp.Coop.Common.dll</HintPath>
         </Reference>
     </ItemGroup>
 

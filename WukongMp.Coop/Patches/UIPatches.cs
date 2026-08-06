@@ -8,7 +8,6 @@ using BtlShare;
 using CSharpModBase;
 using GSE.GSUI;
 using HarmonyLib;
-using LiteNetLib;
 using PreludeLib.Attributes;
 using ReadyM.Api.Multiplayer.Protocol;
 using ResB1;
