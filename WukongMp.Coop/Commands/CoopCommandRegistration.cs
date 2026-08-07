@@ -40,11 +40,11 @@ public static class CoopCommandRegistrations
     {        
         if (scale <= 0)
         {
-            WukongApi.Chat.ShowLocalMessage("Boss HP scaling must be > 0", FLinearColor.OrangeRed);
+            WukongApi.Chat.ShowLocalMessage("Boss HP scaling must be > 0%", FLinearColor.OrangeRed);
             return;
         }
 
         var rpc = WukongApi.Services.Resolve<CoopServerRpc>();
-        rpc.SendScaleBossHp(scale / 100f);
+        rpc.SendScaleBossHp(scale);
     }
 }

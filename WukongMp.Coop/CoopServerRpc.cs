@@ -41,14 +41,13 @@ public partial class CoopServerRpc : ServerRpcClient
         });
     }
 
-    partial void OnBossHpScaleConfirm(float scaling, int players)
+    partial void OnBossHpScaleConfirm(int scalingPercent, int players)
     {
         RunOnGameThread(() =>
         {
-            var percent = (int)(scaling * 100);
             WukongApi.Chat.ShowLocalMessage("Boss HP scaling changed!", FLinearColor.Gray);
-            WukongApi.Chat.ShowLocalMessage($"Boss HP is set to {percent}% and multiplied by {players} Players.", FLinearColor.Gray);
-            WukongApi.Chat.ShowLocalMessage($"Boss HP is now {percent + percent * (players - 1)}% of base HP.", FLinearColor.Gray);
+            WukongApi.Chat.ShowLocalMessage($"Boss HP is set to {scalingPercent}% and multiplied by {players} Players.", FLinearColor.Gray);
+            WukongApi.Chat.ShowLocalMessage($"Boss HP is now {scalingPercent + scalingPercent * (players - 1)}% of base HP.", FLinearColor.Gray);
         });
     }
 }

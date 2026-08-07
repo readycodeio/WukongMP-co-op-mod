@@ -6,9 +6,9 @@ namespace WukongMp.Coop.Serverside;
 
 public partial class RpcHandlers(ScaleHpSystem hpScaling, EcsApi ecs) : ServerRpcHandlersBase
 {
-    partial void OnScaleBossHp(RpcContext context, float scaling)
+    partial void OnScaleBossHp(RpcContext context, int scalingPercent)
     {
-        hpScaling.scalingFactor = scaling;
+        hpScaling.scalingPercent = scalingPercent;
 
         var players = 0;
         ecs.Query<MainCharacterComponent>((ref _) =>
@@ -18,7 +18,7 @@ public partial class RpcHandlers(ScaleHpSystem hpScaling, EcsApi ecs) : ServerRp
 
         ecs.Query<MainCharacterComponent>((ref player) =>
         {
-            SendBossHpScaleConfirm(player.PlayerId, scaling, players);
+            SendBossHpScaleConfirm(player.PlayerId, scalingPercent, players);
         });
     }
 }

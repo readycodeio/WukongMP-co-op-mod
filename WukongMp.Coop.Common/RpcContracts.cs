@@ -6,6 +6,6 @@ namespace WukongMp.Coop.Common;
 public static partial class RpcContracts
 {
     [ServerToClient] public static partial void BeguilingChant(byte state);
-    [ClientToServer] public static partial void ScaleBossHp(float scaling);
-    [ServerToClient] public static partial void BossHpScaleConfirm(float scaling, int players);
+    [ClientToServer] public static partial void ScaleBossHp(int scalingPercent);
+    [ServerToClient] public static partial void BossHpScaleConfirm(int scalingPercent, int players);
 }

@@ -7,8 +7,7 @@ namespace WukongMp.Coop.Serverside;
 
 public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
 {
-    public float scalingFactor = 1f;
-    private const float Epsilon = 0.1f;
+    public int scalingPercent = 100;
 
     protected override void OnUpdate(UpdateTick tick)
     {
@@ -16,18 +15,19 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
         var players = 0;
         ecs.Query<MainCharacterComponent>((ref _) => { players++; });
 
-        var targetScaling = scalingFactor * players;
+        var targetScalingPercent = scalingPercent * players;
+        var targetScaling = targetScalingPercent / 100f;
 
         ecs.Query<TamerComponent, HpComponent>((ref tamer, ref hp) =>
         {
+            if (!tamer.IsBossOrElite)
+                return;
+            
             if (hp is { HpMaxBase: 0, Hp: 0 })
                 return; // no need to scale if monster is not active
 
-            if (Math.Abs(targetScaling - hp.HpMultiplier) > Epsilon)
+            if (targetScalingPercent != hp.HpMultiplier)
             {
-                if (tamer.IsBossOrElite)
-                    return;
-
                 var currentHp = hp.Hp;
                 var maxHp = hp.HpMaxBase;
                 var currentMultiplier = hp.HpMultiplier;
@@ -43,7 +43,7 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
 
                 hp.HpMaxBase = scaledMaxHp;
                 hp.Hp = scaledCurrentHp;
-                hp.HpMultiplier = targetScaling;
+                hp.HpMultiplier = targetScalingPercent;
 
                 logger.LogDebug("Scaled {Tamer} boss HP to {Hp}/{HpMaxBase} (x{Multiplier}) for {Players} players", tamer.Guid, hp.Hp, hp.HpMaxBase, targetScaling, players);
             }
