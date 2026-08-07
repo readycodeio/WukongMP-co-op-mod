@@ -15,25 +15,27 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
         var players = 0;
         ecs.Query<MainCharacterComponent>((ref _) => { players++; });
 
+        if (players == 0)
+            return;
+
         var targetScalingPercent = scalingPercent * players;
-        var targetScaling = targetScalingPercent / 100f;
 
         ecs.Query<TamerComponent, HpComponent>((ref tamer, ref hp) =>
         {
             if (!tamer.IsBossOrElite)
                 return;
-            
+
             if (hp is { HpMaxBase: 0, Hp: 0 })
                 return; // no need to scale if monster is not active
 
-            if (targetScalingPercent != hp.HpMultiplier)
+            var currentMultPercent = hp.HpScalingPercent == 0 ? 100 : hp.HpScalingPercent;
+            if (targetScalingPercent != currentMultPercent)
             {
                 var currentHp = hp.Hp;
                 var maxHp = hp.HpMaxBase;
-                var currentMultiplier = hp.HpMultiplier;
 
-                var scaledMaxHp = maxHp / currentMultiplier * targetScaling;
-                var scaledCurrentHp = currentHp / currentMultiplier * targetScaling;
+                var scaledMaxHp = maxHp * targetScalingPercent / currentMultPercent;
+                var scaledCurrentHp = currentHp * targetScalingPercent / currentMultPercent;
 
                 if (scaledCurrentHp > scaledMaxHp)
                 {
@@ -43,9 +45,9 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
 
                 hp.HpMaxBase = scaledMaxHp;
                 hp.Hp = scaledCurrentHp;
-                hp.HpMultiplier = targetScalingPercent;
+                hp.HpScalingPercent = targetScalingPercent;
 
-                logger.LogDebug("Scaled {Tamer} boss HP to {Hp}/{HpMaxBase} (x{Multiplier}) for {Players} players", tamer.Guid, hp.Hp, hp.HpMaxBase, targetScaling, players);
+                logger.LogDebug("Scaled {Tamer} HP from {Hp}/{HpMaxBase} to {ScaledHp}/{ScaledHpMaxBase} ({Multiplier}%) for {Players} players", tamer.Guid, currentHp, maxHp, hp.Hp, hp.HpMaxBase, hp.HpScalingPercent, players);
             }
         });
     }
