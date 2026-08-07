@@ -17,6 +17,7 @@ public class Mod : ServerModBase
     {
         Services.RegisterSingleton<RpcHandlers>();
         Services.RegisterSystem<BeguilingChantSystem>();
+        Services.RegisterSystem<ScaleHpSystem>();
 
         var logger = Services.Resolve<ILogger>();
         logger.LogInformation("Serverside SDK mod initialized");

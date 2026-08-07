@@ -15,6 +15,7 @@ public static class CoopCommandRegistrations
         consoleApi.AddCommand("cutscene", ConsoleCommand.Create(PlayCutscene, true));
         consoleApi.AddCommand("teleport", ConsoleCommand.Create(Teleport, true));
         consoleApi.AddCommand("openlevel", ConsoleCommand.Create(OpenLevel, true));
+        consoleApi.AddCommand("bosshp", ConsoleCommand.Create(CustomScaling, false));
     }
 
     private static void PlayCutscene(int seqId)
@@ -33,5 +34,17 @@ public static class CoopCommandRegistrations
     private static void OpenLevel(string name)
     {
         UGameplayStatics.OpenLevel(GameUtils.GetWorld(), new FName(name));
+    }
+    
+    private static void CustomScaling(int scale = 100)
+    {        
+        if (scale <= 0)
+        {
+            WukongApi.Chat.ShowLocalMessage("Boss HP scaling must be > 0", FLinearColor.OrangeRed);
+            return;
+        }
+
+        var rpc = WukongApi.Services.Resolve<CoopServerRpc>();
+        rpc.SendScaleBossHp(scale / 100f);
     }
 }

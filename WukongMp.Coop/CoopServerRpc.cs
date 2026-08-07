@@ -1,11 +1,12 @@
 ﻿using b1;
-using CSharpModBase;
 using HarmonyLib;
 using ReadyM.Api.Multiplayer.RPC;
 using UnrealEngine.Engine;
+using UnrealEngine.Runtime;
 using WukongMp.Api;
 using WukongMp.Api.WukongUtils;
 using WukongMp.Coop.Common;
+using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop;
 
@@ -13,12 +14,11 @@ public partial class CoopServerRpc : ServerRpcClient
 {
     partial void OnBeguilingChant(byte state)
     {
-        Utils.TryRunOnGameThread(() =>
+        var evState = (BeguilingChantState)state;
+
+        RunOnGameThread(() =>
         {
-            var evState = (BeguilingChantState)state;
-
             var areaActors = UGameplayStatics.GetAllActorsOfClass<BGUIntervalArea>(GameUtils.GetWorld());
-
             foreach (var area in areaActors)
             {
                 var comp = area.GetComponent<BUS_IntervalTriggerImpl>();
@@ -38,6 +38,17 @@ public partial class CoopServerRpc : ServerRpcClient
                     }
                 }
             }
+        });
+    }
+
+    partial void OnBossHpScaleConfirm(float scaling, int players)
+    {
+        RunOnGameThread(() =>
+        {
+            var percent = (int)(scaling * 100);
+            WukongApi.Chat.ShowLocalMessage("Boss HP scaling changed!", FLinearColor.Gray);
+            WukongApi.Chat.ShowLocalMessage($"Boss HP is set to {percent}% and multiplied by {players} Players.", FLinearColor.Gray);
+            WukongApi.Chat.ShowLocalMessage($"Boss HP is now {percent + percent * (players - 1)}% of base HP.", FLinearColor.Gray);
         });
     }
 }

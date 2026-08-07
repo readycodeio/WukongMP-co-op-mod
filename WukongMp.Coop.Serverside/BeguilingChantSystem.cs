@@ -1,24 +1,23 @@
-﻿using ReadyM.Relay.Server.Sdk.Ecs;
+﻿using Microsoft.Extensions.Logging;
+using ReadyM.Relay.Server.Sdk.Ecs;
 using ReadyM.Relay.Server.Sdk.Ecs.Systems;
 using ReadyM.Wukong.Common.ECS.Components;
 using WukongMp.Coop.Common;
 
 namespace WukongMp.Coop.Serverside;
 
-internal class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc) : ModSystemBase
+public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) : ModSystemBase
 {
-    private const float ChantDurationMs = 90_000f;
-    private const float WarningTimeMs = 9_000f;
-    private bool chantActive;
-    private bool warningNotified;
-    private float chantTimer = ChantDurationMs;
+    private const float ChantDurationSeconds = 90f;
+    private const float WarningLeadSeconds = 9f;
 
-    private int eligibleLastFrame;
+    private BeguilingChantState state = BeguilingChantState.Inactive;
+    private float phaseTimer = ChantDurationSeconds;
+    private int eligibleLastTick;
 
     protected override void OnUpdate(UpdateTick tick)
     {
         var eligible = 0;
-
         ecs.Query<MainCharacterComponent, int>(ref eligible, static (ref main, ref eligible) =>
         {
             if (main.BeguilingChantEligible)
@@ -27,52 +26,63 @@ internal class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc) : ModSystemBase
             }
         });
 
-        var anyEligible = eligible > 0;
-        var newEligible = eligible != eligibleLastFrame;
+        var previous = eligibleLastTick;
+        eligibleLastTick = eligible;
 
-        // disable chant for everybody if all players left the Pagoda area
-        if (!anyEligible && chantActive)
+        if (eligible == 0)
         {
-            // disable chant
-            chantActive = false;
-            chantTimer = ChantDurationMs;
-            SendToAll(BeguilingChantState.Inactive);
-        }
-        else if (anyEligible)
-        {
-            // tick chant timer
-            chantTimer -= tick.deltaTime;
-            if (!warningNotified && !chantActive && chantTimer < WarningTimeMs)
+            if (previous > 0)
             {
-                warningNotified = true;
-                SendToAll(BeguilingChantState.Warning);
+                ResetToInactive();
+                SendToAll(state);
             }
-            else if (chantTimer < 0f)
-            {
-                chantActive = !chantActive;
-                warningNotified = false;
-                chantTimer = ChantDurationMs;
-                SendToAll(chantActive ? BeguilingChantState.Active : BeguilingChantState.Inactive);
-            }
-            else if (newEligible)
-            {
-                if (eligibleLastFrame == 0 && eligible == 1)
-                {
-                    // first player entered the chant area, start the timer
-                    chantTimer = ChantDurationMs;
-                    chantActive = true;
-                }
-
-                // someone joined the chant area, resend to sync up
-                SendToAll(chantActive ? BeguilingChantState.Active : BeguilingChantState.Inactive);
-            }
+            return;
         }
 
-        eligibleLastFrame = eligible;
+        if (previous == 0)
+        {
+            // first player entered, start a fresh cycle
+            ResetToInactive();
+            SendToAll(state);
+            return;
+        }
+
+        phaseTimer -= tick.deltaTime;
+
+        var next = state;
+        if (phaseTimer <= 0f)
+        {
+            phaseTimer += ChantDurationSeconds;
+            next = state == BeguilingChantState.Active
+                ? BeguilingChantState.Inactive
+                : BeguilingChantState.Active;
+        }
+        else if (state == BeguilingChantState.Inactive && phaseTimer <= WarningLeadSeconds)
+        {
+            next = BeguilingChantState.Warning;
+        }
+
+        if (next != state)
+        {
+            state = next;
+            SendToAll(state);
+        }
+        else if (eligible != previous)
+        {
+            // someone joined or left mid-phase, resync everyone
+            SendToAll(state);
+        }
     }
 
+    private void ResetToInactive()
+    {
+        state = BeguilingChantState.Inactive;
+        phaseTimer = ChantDurationSeconds;
+    }
+    
     private void SendToAll(BeguilingChantState state)
     {
+        logger.LogDebug("Sending beguling chant state: {State}", state);
         ecs.Query<MainCharacterComponent>((ref main) =>
         {
             rpc.SendBeguilingChant(main.PlayerId, (byte)state);
