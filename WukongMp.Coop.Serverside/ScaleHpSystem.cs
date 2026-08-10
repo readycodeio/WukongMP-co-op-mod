@@ -7,7 +7,11 @@ namespace WukongMp.Coop.Serverside;
 
 public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
 {
-    public int scalingPercent = 100;
+    public int ScalingPercent
+    {
+        get => Volatile.Read(ref field);
+        set => Volatile.Write(ref field, value);
+    } = 100;
 
     protected override void OnUpdate(UpdateTick tick)
     {
@@ -18,7 +22,7 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
         if (players == 0)
             return;
 
-        var targetScalingPercent = scalingPercent * players;
+        var targetScalingPercent = ScalingPercent * players;
 
         ecs.Query<TamerComponent, HpComponent>((ref tamer, ref hp) =>
         {
@@ -28,26 +32,15 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
             if (hp is { HpMaxBase: 0, Hp: 0 })
                 return; // no need to scale if monster is not active
 
-            var currentMultPercent = hp.HpScalingPercent == 0 ? 100 : hp.HpScalingPercent;
+            var currentMultPercent = hp.HpMaxMulPercent == 0 ? 100 : hp.HpMaxMulPercent;
             if (targetScalingPercent != currentMultPercent)
             {
-                var currentHp = hp.Hp;
-                var maxHp = hp.HpMaxBase;
+                var oldHp = hp.Hp;
+                var newHp = hp.Hp * ((float)targetScalingPercent / currentMultPercent);
 
-                var scaledMaxHp = maxHp * targetScalingPercent / currentMultPercent;
-                var scaledCurrentHp = currentHp * targetScalingPercent / currentMultPercent;
-
-                if (scaledCurrentHp > scaledMaxHp)
-                {
-                    scaledCurrentHp = scaledMaxHp;
-                    logger.LogWarning("Scaled current HP exceeded scaled max HP for {Tamer}. Adjusting current HP to max HP.", tamer.Guid);
-                }
-
-                hp.HpMaxBase = scaledMaxHp;
-                hp.Hp = scaledCurrentHp;
-                hp.HpScalingPercent = targetScalingPercent;
-
-                logger.LogDebug("Scaled {Tamer} HP from {Hp}/{HpMaxBase} to {ScaledHp}/{ScaledHpMaxBase} ({Multiplier}%) for {Players} players", tamer.Guid, currentHp, maxHp, hp.Hp, hp.HpMaxBase, hp.HpScalingPercent, players);
+                hp.HpMaxMulPercent = targetScalingPercent;
+                hp.Hp = newHp;
+                logger.LogDebug("Set {Tamer} HP scaling from {OldMultiplier}% to {Multiplier}% for {Players} players (HP: {Old} -> {New})", tamer.Guid, currentMultPercent, targetScalingPercent, players, oldHp, newHp);
             }
         });
     }

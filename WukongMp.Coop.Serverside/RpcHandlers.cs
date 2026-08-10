@@ -8,7 +8,7 @@ public partial class RpcHandlers(ScaleHpSystem hpScaling, EcsApi ecs) : ServerRp
 {
     partial void OnScaleBossHp(RpcContext context, int scalingPercent)
     {
-        hpScaling.scalingPercent = scalingPercent;
+        hpScaling.ScalingPercent = scalingPercent;
 
         var players = 0;
         ecs.Query<MainCharacterComponent>((ref _) =>
