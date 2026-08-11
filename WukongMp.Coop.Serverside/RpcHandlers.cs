@@ -1,9 +1,12 @@
+using ReadyM.Api.Multiplayer;
 using ReadyM.Relay.Server.Sdk.Ecs;
 using ReadyM.Relay.Server.Sdk.Rpc;
 using ReadyM.Wukong.Common.ECS.Components;
+using WukongMp.Coop.Common;
 
 namespace WukongMp.Coop.Serverside;
 
+[ServerRpcFor(typeof(CoopRpcContracts))]
 public partial class RpcHandlers(ScaleHpSystem hpScaling, EcsApi ecs) : ServerRpcHandlersBase
 {
     partial void OnScaleBossHp(RpcContext context, int scalingPercent)

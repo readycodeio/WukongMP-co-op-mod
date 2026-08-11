@@ -3,7 +3,7 @@
 namespace WukongMp.Coop.Common;
 
 [ServerRpcContracts]
-public static partial class RpcContracts
+public static partial class CoopRpcContracts
 {
     [ServerToClient] public static partial void BeguilingChant(byte state);
     [ClientToServer] public static partial void ScaleBossHp(int scalingPercent);

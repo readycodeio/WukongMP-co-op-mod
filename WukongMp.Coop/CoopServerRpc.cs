@@ -1,5 +1,6 @@
 ﻿using b1;
 using HarmonyLib;
+using ReadyM.Api.Multiplayer;
 using ReadyM.Api.Multiplayer.RPC;
 using UnrealEngine.Engine;
 using UnrealEngine.Runtime;
@@ -10,6 +11,7 @@ using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop;
 
+[ServerRpcFor(typeof(CoopRpcContracts))]
 public partial class CoopServerRpc : ServerRpcClient
 {
     partial void OnBeguilingChant(byte state)
