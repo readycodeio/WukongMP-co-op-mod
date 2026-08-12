@@ -219,10 +219,56 @@
         <member name="T:System.Runtime.CompilerServices.IsExternalInit">
             <exclude/>
         </member>
+        <member name="T:ReadyM.Api.Attributes.CppNativeFieldTypeAttribute">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Attributes.CppNativeFieldTypeAttribute.#ctor(System.String,System.String,System.String,System.String,System.Boolean,System.Boolean,System.String[])">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.CppNativeFieldTypeForAttribute">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Attributes.CppNativeFieldTypeForAttribute.#ctor(System.Type,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Type,System.Boolean,System.String[])">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.DeriveNativeBindingAttribute">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.NativeComponentAttribute">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Attributes.NativeComponentAttribute.#ctor(System.Boolean,System.Boolean)">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.NativeComponentForAttribute">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Attributes.NativeComponentForAttribute.#ctor(System.Type,System.Boolean,System.Boolean)">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.SkipNativeAccessMethodsAttribute">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Attributes.SkipNativeAccessMethodsForAttribute">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Attributes.SkipNativeAccessMethodsForAttribute.#ctor(System.Type,System.String)">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Compat.DictionaryExtensions">
+            <exclude/>
+        </member>
         <member name="T:ReadyM.Api.DI.IDependencyContainer">
             <summary>
             Dependency injection container interface for registering and resolving services.
             </summary>
+            <remarks>
+            Registrations are additive by default, so several mods can each contribute an
+            implementation of the same service and all of them are returned by
+            <see cref="M:ReadyM.Api.DI.IDependencyContainer.ResolveAll``1"/>. Pass <c>replace: true</c> to take over a service
+            another mod or the SDK already registered, which drops every existing
+            registration of that service type.
+            </remarks>
         </member>
         <member name="T:ReadyM.Api.DI.IHostedService">
             <summary>
@@ -237,6 +283,40 @@
             This allows the service to perform any necessary setup at the appropriate time, such as registering event handlers.
             </summary>
         </member>
+        <member name="T:ReadyM.Api.ECS.Managers.IEntityDeleteImpl">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.ECS.Worlds.EntityBuilderBase.Add``1">
+            <summary>
+            Add a component to the archetype.
+            </summary>
+            <typeparam name="T">Type of the component. Must implement <see cref="T:Friflo.Engine.ECS.IComponent" />.</typeparam>
+        </member>
+        <member name="M:ReadyM.Api.ECS.Worlds.EntityBuilderBase.Add``1(``0@)">
+            <summary>
+            Add a component with a default value to the archetype. 
+            </summary>
+            <typeparam name="T">Type of the component. Must implement <see cref="T:Friflo.Engine.ECS.IComponent" />.</typeparam>
+        </member>
+        <member name="T:ReadyM.Api.ECS.Worlds.IArchetypeRegistry">
+            <summary>
+            Allows registering and modifying entity archetypes in the ECS.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Api.ECS.Worlds.IArchetypeRegistry.RegisterArchetype(System.Action{ReadyM.Api.ECS.Worlds.EntityBuilderBase})">
+            <summary>
+            Registers a new entity archetype with the configured components.
+            </summary>
+            <param name="build">An action for adding components.</param>
+            <returns>The identifier of the defined archetype.</returns>
+        </member>
+        <member name="M:ReadyM.Api.ECS.Worlds.IArchetypeRegistry.ModifyArchetype(ReadyM.Api.Idents.ArchetypeId,System.Action{ReadyM.Api.ECS.Worlds.EntityBuilderBase})">
+            <summary>
+            Extends an existing entity archetype with additional components.
+            </summary>
+            <param name="archetypeId">The identifier of the archetype to modify.</param>
+            <param name="build">A action for adding components.</param>
+        </member>
         <member name="M:ReadyM.Api.ECS.Worlds.Store.ComponentIndex``2">
             <summary>
             Returns the index for indexed components to search entities with a specific component value in O(1).<br/>
@@ -249,6 +329,45 @@
             Executes in O(1). 
             </summary>
         </member>
+        <member name="T:ReadyM.Api.Helpers.BiMap`2.Indexer`2">
+            <summary>
+            Publically read-only lookup to prevent inconsistent state between forward and reverse map lookups
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:ReadyM.Api.Helpers.BiMap`2.Indexer`2.ToDictionary">
+            <summary>
+            Deep copy lookup as a dictionary
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:ReadyM.Api.Helpers.PendingActionScheduler`1.DefaultRunSynchronouslyTimeoutMs">
+            <summary>
+            Default upper bound (in milliseconds) for how long the <see cref="M:ReadyM.Api.Helpers.PendingActionScheduler`1.RunSynchronously(System.Action{`0},System.Int32)"/>
+            overloads wait for the scheduler thread to execute the scheduled action. Hitting this bound means the scheduler
+            stopped draining its queue, which would otherwise block the calling thread forever.
+            </summary>
+            <remarks>
+            Scheduler can end up never executing a task that was added to its queue due to an exception or a different kind of bug.
+            A finite time limit is the only way to make sure that this kind of issue, regardles of its exact cause, will always 
+            end up throwing an exception eventually instead of blocking the waiting thread forever.
+            This is especially important for integration tests, which use different <see cref="M:ReadyM.Api.Helpers.PendingActionScheduler`1.RunSynchronously(System.Action{`0},System.Int32)"/>
+            overloads extensively and when the main test thread is blocked, a test gets stuck instead of failing.
+            </remarks>
+        </member>
+        <member name="T:ReadyM.Api.Idents.ArchetypeId">
+            <summary>
+            Represents a unique identifier for an archetype in the ECS.
+            Entities of a given archetype have a fixed set of components, never changed after creation.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Api.Idents.ArchetypeId.#ctor(System.Byte)">
+            <summary>
+            Represents a unique identifier for an archetype in the ECS.
+            Entities of a given archetype have a fixed set of components, never changed after creation.
+            </summary>
+        </member>
         <member name="T:ReadyM.Api.Idents.AreaId">
             <summary>
             Identifies an area within the game world.
@@ -257,18 +376,39 @@
             </summary>
             <param name="id">The underlying ID value. This is not guaranteed to be stable across game versions, and should not be used for anything other than debugging or logging purposes.</param>
         </member>
-        <member name="M:ReadyM.Api.Idents.AreaId.#ctor(System.UInt16)">
-            <summary>
-            Identifies an area within the game world.
-            Areas can be main Chapter maps, sub-areas such as the Zodiac Village, or hidden boss arenas.
-            If going somewhere requires a loading screen, it's probably a different area.
-            </summary>
-            <param name="id">The underlying ID value. This is not guaranteed to be stable across game versions, and should not be used for anything other than debugging or logging purposes.</param>
-        </member>
-        <member name="M:ReadyM.Api.Idents.AreaId.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
+        <member name="M:ReadyM.Api.Idents.AreaId.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Idents.AreaId,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:ReadyM.Api.Idents.AreaId.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Idents.AreaId,System.Text.Json.JsonSerializerOptions)">
+        <member name="T:ReadyM.Api.Idents.CellId">
+            <summary>
+            Identifies a cell within an area.
+            <see cref="T:ReadyM.Api.Idents.CellId"/> has to be unique within its parent area (identified by <see cref="T:ReadyM.Api.Idents.AreaId"/>).
+            The main difference between a cell and an area is that a player can be only in one area at once, but can have many cells active within that area.
+            <remarks>Cells are only used in OblivionMP for now. WukongMP does not use cells.</remarks>
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Idents.CellId._id">
+            <summary>
+            The underlying ID value.
+            This is not guaranteed to be stable across game versions, and should not be used for anything other than debugging or logging purposes.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Api.Idents.CellId.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Idents.CellId,System.Text.Json.JsonSerializerOptions)">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Idents.FullCellId">
+            <summary>
+            Fully identifies a cell across the whole game world by pairing it with its parent area.
+            A <see cref="P:ReadyM.Api.Idents.FullCellId.CellId"/> only has to be unique within its parent <see cref="P:ReadyM.Api.Idents.FullCellId.AreaId"/>, so a cell can only be
+            uniquely identified by the (<see cref="P:ReadyM.Api.Idents.FullCellId.AreaId"/>, <see cref="P:ReadyM.Api.Idents.FullCellId.CellId"/>) pair represented by this struct.
+            </summary>
+            <remarks>
+            This struct doesn't replace <see cref="P:ReadyM.Api.Idents.FullCellId.CellId"/>, because most of the time 
+            <see cref="P:ReadyM.Api.Idents.FullCellId.AreaId"/> can be inferred from the context of which area is a given player in.
+            Cells are only used in OblivionMP for now. WukongMP does not use cells.
+            </remarks>
+        </member>
+        <member name="M:ReadyM.Api.Idents.FullCellId.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Idents.FullCellId,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="T:ReadyM.Api.Idents.PlayerId">
@@ -289,11 +429,162 @@
             An invalid PlayerId, which can be used to represent the absence of a player or an uninitialized state.
             </summary>
         </member>
-        <member name="M:ReadyM.Api.Idents.PlayerId.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:ReadyM.Api.Idents.PlayerId.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Api.Idents.PlayerId,System.Text.Json.JsonSerializerOptions)">
             <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Interop.ClosureTrampoline0">
+            A handle for a C++ closure that does not take any parameters.
+        </member>
+        <member name="M:ReadyM.Api.Interop.ClosureTrampoline0.Invoke">
+            Invokes the closure.
+            <exception cref="T:System.NullReferenceException">When the closure function or context pointers are invalid.</exception>
+        </member>
+        <member name="T:ReadyM.Api.Interop.ClosureTrampoline1">
+            A handle for a C++ closure that takes a single parameter.
+        </member>
+        <member name="M:ReadyM.Api.Interop.ClosureTrampoline1.Invoke(System.IntPtr)">
+            Invokes the closure.
+            <exception cref="T:System.NullReferenceException">When the closure function or context pointers are invalid.</exception>
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Data.Field`2">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Data.Field`2.#ctor(System.Int32,System.Func{`0,`1},ReadyM.Api.Mapping.Data.FieldSetterDelegate{`0,`1},ReadyM.Api.Mapping.Data.FieldSetterDelegate{`0,`1},System.Func{`0,System.Boolean})">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Data.Field`3">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Data.Field`3.#ctor(System.Int32,System.Func{`0,`1},ReadyM.Api.Mapping.Data.FieldSetterDelegate{`0,`1},System.Func{`0,System.Boolean})">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Data.FieldSetterDelegate`2">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Events.IMappedEventManager.InvokeInGameAndNotifyEcs``2(``0@,``1)">
+            Propagate the event to both the ECS and the game, regardless of the policy.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Events.IMappedEventManager.NotifyEcsIfApplicable``2(``0@,``1)">
+            Propagate the event to the ECS if the event policy allows it.
+            <returns>Whether the event was propagated.</returns>
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Events.IMappedEventManager.InvokeInGameIfApplicable``2(``0@,``1)">
+            Propagate the event to the game if the event policy allows it.
+            <returns>Whether the event was propagated.</returns>
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Events.MappedEventManager.NotifyEcsIfApplicable``2(``0@,``1)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Events.MappedEventManager.InvokeInGameIfApplicable``2(``0@,``1)">
+            <inheritdoc/>
+        </member>
+        <member name="T:ReadyM.Api.Mapping.NativeMappingPolicyDirectoryBindings">
+            <exclude />
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Data.IMappingDataPolicy`1.ShouldGameCopyToEcs(`0@)">
+            Should data be copied from the game object to the ECS entity
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Data.IMappingDataPolicy`1.ShouldEcsCopyToGame(`0@)">
+            Should data be copied from the ECS entity to the game object
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Data.IMappingDataPolicy`1.CanSetFromApi(`0@)">
+            Should data be allowed to be set from the API.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Data.IMappingDataPolicy`1.CanGameSetLocally(`0@)">
+            Should data be allowed to be stored / set locally (analogous to ShouldRunLocally for events).
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Policies.Event.Common.AlwaysPropagatesToEcsOnlyEventPolicy`1">
+            Used with events that are only happening on the game-side and it makes no sense to trigger them manually.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.Common.AlwaysPropagatesToEcsOnlyEventPolicy`1.#ctor(ReadyM.Api.Helpers.DataSideChannel)">
+            Used with events that are only happening on the game-side and it makes no sense to trigger them manually.
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Policies.Event.Common.AlwaysPropagatesToGameOnlyEventPolicy`1">
+            Used for events that are only sent to clients from the server and therefore are never triggered locally.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.Common.AlwaysPropagatesToGameOnlyEventPolicy`1.#ctor(ReadyM.Api.Helpers.DataSideChannel)">
+            Used for events that are only sent to clients from the server and therefore are never triggered locally.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanGameEventNotifyEcs(`1@)">
+            <inheritdoc cref="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanGameEventNotifyEcsImpl(`1@)"/>
+            Always returns <c>false</c> if the event is already propagating to the game, to avoid recursion.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanGameEventNotifyEcsImpl(`1@)">
+            Returns whether the event should be allowed to propagate to the ECS or not, based on the provided context.
+            This is usually called in patches to game code.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanEcsInvokeGameEvent(`1@)">
+            <inheritdoc cref="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanEcsInvokeGameEventImpl(`1@)"/>
+            Always returns <c>false</c> if the event is already propagating to the ECS, to avoid recursion.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanEcsInvokeGameEventImpl(`1@)">
+            Returns whether the event should be allowed to propagate to the game or not, based on the provided context.
+            This is usually called in network event handlers.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanGameEventRunLocally(`1@)">
+            Returns whether the game is allowed to run the game code related to the event locally, or not.
+            This is used exclusively in game code patches, to avoid running events for entities we are not responsible for.
+            Always returns <c>true</c> if the event is propagating from the ECS to the game, to allow the game code to run for the event.
+        </member>
+        <member name="M:ReadyM.Api.Mapping.Policies.Event.MappingEventPolicyBase`2.CanGameEventRunLocallyImpl(`1@)">
+            Returns whether the game is allowed to run the game code related to the event locally, or not.
+            This is used exclusively in game code patches, to avoid running events for entities we are not responsible for.
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.EmptyContext">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IAlwaysPropagates">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IAlwaysPropagatesToEcsOnly">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IAlwaysPropagatesToGameOnly">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IMappingContext`1">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IOwnershipBased">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Mapping.Tags.IReadyComponent">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Api.Saves.FileInfo">
+            <summary>
+            Represents a file with a name and binary content, used for saving game data.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Api.Saves.FileInfo.#ctor(System.String,System.Byte[])">
+            <summary>
+            Represents a file with a name and binary content, used for saving game data.
+            </summary>
+        </member>
+        <member name="P:ReadyM.Api.Saves.FileInfo.Name">
+            <summary>
+            The name of the file.
+            </summary>
+        </member>
+        <member name="P:ReadyM.Api.Saves.FileInfo.Content">
+            <summary>
+            The binary content of the file.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Api.Saves.SaveFileType">
+            <summary>
+            Indicates the type of a save file.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Saves.SaveFileType.WorldSave">
+            <summary>
+            Indicates a world save file, which contains the state of the world.
+            </summary>
+        </member>
+        <member name="F:ReadyM.Api.Saves.SaveFileType.PlayerSave">
+            <summary>
+            Indicates a player save file, which contains the equipment, inventory, skills, and other data related to a player.
+            </summary>
         </member>
         <member name="T:ReadyM.Api.Serialization.DeriveJsonSerializableAttribute">
             <exclude />

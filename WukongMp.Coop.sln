@@ -1,6 +1,10 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WukongMp.Coop.Common", "WukongMp.Coop.Common\WukongMp.Coop.Common.csproj", "{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WukongMp.Coop", "WukongMp.Coop\WukongMp.Coop.csproj", "{1C7819A8-271D-477F-A43E-B95852BAD376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WukongMp.Coop.Serverside", "WukongMp.Coop.Serverside\WukongMp.Coop.Serverside.csproj", "{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +12,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C7819A8-271D-477F-A43E-B95852BAD376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C7819A8-271D-477F-A43E-B95852BAD376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C7819A8-271D-477F-A43E-B95852BAD376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C7819A8-271D-477F-A43E-B95852BAD376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{1C7819A8-271D-477F-A43E-B95852BAD376}.{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274} = {2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}
+		{7D4A08E6-3F91-4B25-8A17-C6029BDE5431}.{2B5F1C90-7A46-4E13-9C08-D5E3A1F86274} = {2B5F1C90-7A46-4E13-9C08-D5E3A1F86274}
 	EndGlobalSection
 EndGlobal

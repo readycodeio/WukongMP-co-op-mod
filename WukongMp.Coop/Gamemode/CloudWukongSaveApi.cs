@@ -2,7 +2,7 @@
 using WukongMp.Api;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
-using FileInfo = WukongMp.Api.Https.FileInfo;
+using FileInfo = ReadyM.Api.Saves.FileInfo;
 
 namespace WukongMp.Coop.Gamemode;
 

@@ -78,157 +78,79 @@
             Get the path to the unit blueprint for a given tamer kind. This is used for spawning units in the world.
             </summary>
         </member>
-        <member name="M:WukongMp.Api.DTO.BroadcastUnitSpawnData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.BroadcastUnitSpawnData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.BroadcastUnitSpawnData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.BuffAddData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.BuffAddData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.BuffAddData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.BuffRemoveAllData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.BuffRemoveAllData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.BuffRemoveAllData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.BuffRemoveData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.BuffRemoveData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.BuffRemoveData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.FsmStateData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.FsmStateData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.FsmStateData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.TriggerImmobilizeData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.TriggerImmobilizeData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.TriggerImmobilizeData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.MontageCallbackData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.MontageCallbackData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.MontageCallbackData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.MotionMatchingStateData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.MotionMatchingStateData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.MotionMatchingStateData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.PlayBaneEffectData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.PlayBaneEffectData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.PlayBaneEffectData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.PlayerTransBeginData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.PlayerTransBeginData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.PlayerTransBeginData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.PlayerTransEndData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.PlayerTransEndData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.PlayerTransEndData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.PlayMovieRequestData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.PlayMovieRequestData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.PlayMovieRequestData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.ProjectileDeadData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.ProjectileDeadData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.ProjectileDeadData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.ProjectileMoveModeData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.ProjectileMoveModeData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.ProjectileMoveModeData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.ProjectileSwitchData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.ProjectileSwitchData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.ProjectileSwitchData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.ProjectileTargetData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.ProjectileTargetData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.ProjectileTargetData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.RequestSpawnUnitsData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.RequestSpawnUnitsData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.RequestSpawnUnitsData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.RequestTeleportData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.RequestTeleportData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.RequestTeleportData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.SequenceWaitingData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.SequenceWaitingData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.SequenceWaitingData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.SetTargetData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.SetTargetData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.SetTargetData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.SimpleStateData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.SimpleStateData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.SimpleStateData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.SpawnSummonData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.SpawnSummonData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.SpawnSummonData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.StartJumpData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.StartJumpData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.StartJumpData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.StateTriggerData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.StateTriggerData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.StateTriggerData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
-        <member name="M:WukongMp.Api.DTO.StopBaneEffectData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
         <member name="M:WukongMp.Api.DTO.StopBaneEffectData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.StopBaneEffectData,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
-        </member>
-        <member name="M:WukongMp.Api.DTO.UnitDeadData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
             <exclude />
         </member>
         <member name="M:WukongMp.Api.DTO.UnitDeadData.TextSerialize(System.Text.Json.Utf8JsonWriter,WukongMp.Api.DTO.UnitDeadData,System.Text.Json.JsonSerializerOptions)">
@@ -259,7 +181,7 @@
             Creates the MainCharacterEntity corresponding to the locally controlled pawn
             </summary>
         </member>
-        <member name="M:WukongMp.Api.ECS.Systems.MainCharacters.CreateLocalMainCharacterEntitySystem.#ctor(ReadyM.Relay.Client.State.ClientState,WukongMp.Api.State.WukongPlayerState,WukongMp.Api.WukongEventBus,ReadyM.Api.Multiplayer.Mapping.Data.IComponentFieldMappingRegistry,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:WukongMp.Api.ECS.Systems.MainCharacters.CreateLocalMainCharacterEntitySystem.#ctor(ReadyM.Relay.Client.State.ClientState,WukongMp.Api.State.WukongPlayerState,WukongMp.Api.WukongEventBus,ReadyM.Api.Mapping.Data.IComponentFieldMappingRegistry,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Creates the MainCharacterEntity corresponding to the locally controlled pawn
             </summary>
@@ -318,15 +240,16 @@
             <param name="ct">A cancellation token.</param>
             <returns>The HTTP status code of the response.</returns>
         </member>
-        <member name="P:WukongMp.Api.Https.FileInfo.Name">
+        <member name="T:WukongMp.Api.IComponentApi">
             <summary>
-            The name of the file.
+            Provides methods for registering custom networked components.
             </summary>
         </member>
-        <member name="P:WukongMp.Api.Https.FileInfo.Content">
+        <member name="M:WukongMp.Api.IComponentApi.RegisterComponent``1">
             <summary>
-            The binary content of the file.
+            Register a custom <see cref="T:ReadyM.Api.Multiplayer.ECS.Components.INetworkedComponent"/> to be syncronized over the network.
             </summary>
+            <typeparam name="T">Type of the component to register.</typeparam>
         </member>
         <member name="T:WukongMp.Api.IWukongSaveApi">
             <summary>

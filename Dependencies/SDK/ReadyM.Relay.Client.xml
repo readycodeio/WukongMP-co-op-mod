@@ -10,17 +10,24 @@
             that the update loop tick will be called externally from the game code, on the appropriate thread.
             </summary>
         </member>
-        <member name="M:ReadyM.Relay.Client.IClientEcsUpdateLoop.Tick(System.Single)">
+        <member name="M:ReadyM.Relay.Client.ClientEcsUpdateLoop.#ctor(ReadyM.Api.ECS.Worlds.Store,Microsoft.Extensions.Logging.ILogger)">
             <summary>
-            Executes one tick of the ECS update loop. Should be called regularly, e.g. from a game loop or a timer.
+            This class is responsible for scheduling ECS operations on the client side. The current implementation assumes
+            that the update loop tick will be called externally from the game code, on the appropriate thread.
             </summary>
-            <param name="deltaTime">Time in seconds from the previous tick.</param>
-        </member>
-        <member name="M:ReadyM.Relay.Client.Shim.ECS.ShimEcsDependencyData.TextDeserialize(System.Text.Json.Utf8JsonReader@,System.Text.Json.JsonSerializerOptions)">
-            <exclude />
         </member>
         <member name="M:ReadyM.Relay.Client.Shim.ECS.ShimEcsDependencyData.TextSerialize(System.Text.Json.Utf8JsonWriter,ReadyM.Relay.Client.Shim.ECS.ShimEcsDependencyData,System.Text.Json.JsonSerializerOptions)">
             <exclude />
+        </member>
+        <member name="P:ReadyM.Relay.Client.State.ClientState.CellEntry.CellPlayers">
+            <summary>Players for whom this cell is considered active.</summary>
+        </member>
+        <member name="M:ReadyM.Relay.Client.State.ClientState.PrunePendingEvents">
+            <summary>
+            Invalidates all pending events that are no longer relevant.
+            For example if a player disconnects and reconnects, the <see cref="F:ReadyM.Relay.Client.State.ClientState.PendingEventKind.Disconnected"/> will be invalidated,
+            because what matters to us is the final state.
+            </summary>
         </member>
         <member name="T:ReadyM.Relay.Client.Utilities.NetworkSessionStats">
              <summary>

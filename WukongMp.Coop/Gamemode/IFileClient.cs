@@ -1,4 +1,4 @@
-﻿using FileInfo = WukongMp.Api.Https.FileInfo;
+﻿using FileInfo = ReadyM.Api.Saves.FileInfo;
 
 namespace WukongMp.Coop.Gamemode;
 
