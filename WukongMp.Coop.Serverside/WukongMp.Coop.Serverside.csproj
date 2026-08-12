@@ -13,14 +13,57 @@
 
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
-        <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
-        <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
+        <!-- server mods run on net10.0, so they use the ServerSDK builds, not the netstandard2.0 ones -->
+        <ServerSdkDllPath Condition="'$(ServerSdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\ServerSDK</ServerSdkDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
         <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
         <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Relay.Server.Sdk\ReadyM.Relay.Server.Sdk.csproj" />
         <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj" />
+    </ItemGroup>
+
+    <!-- Standalone clones build against the prebuilt net10.0 SDK in Dependencies/ServerSDK instead. -->
+    <ItemGroup Label="Server SDK DLLs" Condition="'$(UseSdkProjectReferences)' == 'false'">
+        <Reference Include="ReadyM.Api">
+            <HintPath>$(ServerSdkDllPath)\ReadyM.Api.dll</HintPath>
+        </Reference>
+        <Reference Include="ReadyM.Api.Multiplayer">
+            <HintPath>$(ServerSdkDllPath)\ReadyM.Api.Multiplayer.dll</HintPath>
+        </Reference>
+        <Reference Include="ReadyM.Relay.Server.Sdk">
+            <HintPath>$(ServerSdkDllPath)\ReadyM.Relay.Server.Sdk.dll</HintPath>
+        </Reference>
+        <Reference Include="ReadyM.Wukong.Common">
+            <HintPath>$(ServerSdkDllPath)\ReadyM.Wukong.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="WukongMp.Sdk.Serverside">
+            <HintPath>$(ServerSdkDllPath)\WukongMp.Sdk.Serverside.dll</HintPath>
+        </Reference>
+        <Reference Include="Friflo.Engine.ECS">
+            <HintPath>$(ServerSdkDllPath)\Friflo.Engine.ECS.dll</HintPath>
+        </Reference>
+        <Reference Include="Friflo.Engine.ECS.Boost">
+            <HintPath>$(ServerSdkDllPath)\Friflo.Engine.ECS.Boost.dll</HintPath>
+        </Reference>
+        <Reference Include="LiteNetLib">
+            <HintPath>$(ServerSdkDllPath)\LiteNetLib.dll</HintPath>
+        </Reference>
+        <Reference Include="Yooni.Native.Container">
+            <HintPath>$(ServerSdkDllPath)\Yooni.Native.Container.dll</HintPath>
+        </Reference>
+        <Reference Include="Yooni.Native.LowLevel">
+            <HintPath>$(ServerSdkDllPath)\Yooni.Native.LowLevel.dll</HintPath>
+        </Reference>
+        <Reference Include="Yooni.Native.Serialization">
+            <HintPath>$(ServerSdkDllPath)\Yooni.Native.Serialization.dll</HintPath>
+        </Reference>
+        <Analyzer Include="$(ServerSdkDllPath)\ReadyM.Api.Generators.dll"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.8"/>
     </ItemGroup>
 
 </Project>

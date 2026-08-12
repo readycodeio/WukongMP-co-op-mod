@@ -85,4 +85,5 @@ x86/
 *.[Pp]ublish.xml
 
 # Custom files
+build.log
 Output/

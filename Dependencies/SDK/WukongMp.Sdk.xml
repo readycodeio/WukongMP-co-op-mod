@@ -4,6 +4,58 @@
         <name>WukongMp.Sdk</name>
     </assembly>
     <members>
+        <member name="T:WukongMp.Sdk.Api.Implementation.WukongArchetypes">
+            <summary>
+            Provides references for core entity archetypes in WukongMP.
+            </summary>
+        </member>
+        <member name="P:WukongMp.Sdk.Api.Implementation.WukongArchetypes.AreaArchetype">
+            Global player entity archetype.
+            Components:<br/>
+            * <see cref="T:ReadyM.Api.Multiplayer.ECS.Components.AreaScopeComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.RoomComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.MovieComponent"/>
+        </member>
+        <member name="P:WukongMp.Sdk.Api.Implementation.WukongArchetypes.GlobalPlayerArchetype">
+            <summary>
+            Global player entity archetype.
+            Components:<br/>
+            * <see cref="T:ReadyM.Api.Multiplayer.ECS.Components.PlayerScopeComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.PlayerComponent"/>
+            </summary>
+        </member>
+        <member name="P:WukongMp.Sdk.Api.Implementation.WukongArchetypes.TamerArchetype">
+            <summary>
+            Area-scoped tamer entity archetype.
+            Components:<br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.TamerComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.TransformComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.HpComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.NicknameComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.TeamComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.AnimationComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.MonsterAnimationComponent"/>
+            </summary>
+        </member>
+        <member name="P:WukongMp.Sdk.Api.Implementation.WukongArchetypes.MainCharacterArchetype">
+            <summary>
+            Area-scoped main character entity archetype.
+            Components:<br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.MainCharacterComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.TransformComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.HpComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.NicknameComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.TeamComponent"/><br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.PvPComponent"/><br/>
+            </summary>
+        </member>
+        <member name="P:WukongMp.Sdk.Api.Implementation.WukongArchetypes.PvpStateArchetype">
+            <summary>
+            Global PvP state entity archetype. Used by the PvP mod.
+            Components:<br/>
+            * <see cref="T:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent"/>
+            </summary>
+        </member>
         <member name="T:WukongMp.Sdk.Api.Implementation.WukongFileApi">
             API for referencing files related to a mod, such as save files.
         </member>
@@ -26,7 +78,7 @@
         <member name="T:WukongMp.Sdk.Api.Implementation.WukongSynchronizationApi">
             API for networked gameplay features.
         </member>
-        <member name="M:WukongMp.Sdk.Api.Implementation.WukongSynchronizationApi.#ctor(ReadyM.Api.ECS.Worlds.Store,ReadyM.Relay.Client.State.ClientState,WukongMp.Api.State.WukongAreaState,WukongMp.Api.State.WukongPlayerState,WukongMp.Api.State.WukongPawnState,WukongMp.Api.Mapping.WukongMappingPolicyDirectory,ReadyM.Api.Multiplayer.Mapping.Events.IMappedEventManager,ReadyM.Api.Multiplayer.Client.IRelayClient)">
+        <member name="M:WukongMp.Sdk.Api.Implementation.WukongSynchronizationApi.#ctor(ReadyM.Api.ECS.Worlds.Store,ReadyM.Relay.Client.State.ClientState,WukongMp.Api.State.WukongAreaState,WukongMp.Api.State.WukongPlayerState,WukongMp.Api.State.WukongPawnState,WukongMp.Api.Mapping.WukongMappingPolicyDirectory,ReadyM.Api.Mapping.Events.IMappedEventManager,ReadyM.Api.Multiplayer.Client.IRelayClient)">
             API for networked gameplay features.
         </member>
         <member name="T:WukongMp.Sdk.Api.IWukongChatApi">
@@ -418,6 +470,13 @@
             Gets a list of tamers (monsters) in the current area.
             </summary>
         </member>
+        <member name="M:WukongMp.Sdk.Api.IWukongSynchronizationApi.GetTamerEntityByActor(b1.ABGUTamerBase)">
+            <summary>
+            Gets the tamer entity associated with the specified actor.
+            </summary>
+            <param name="actor">The tamer actor to find the tamer entity for.</param>
+            <returns>The tamer entity, or <c>null</c> if not found.</returns>
+        </member>
         <member name="P:WukongMp.Sdk.Api.IWukongSynchronizationApi.AllMainCharacters">
             <summary>
             Gets a list of all main characters.
@@ -550,6 +609,15 @@
             Provides access to all of the various APIs and services that WukongMP offers.
             </summary>
         </member>
+        <member name="P:WukongMp.Sdk.Api.WukongApi.Archetypes">
+            <inheritdoc cref="T:WukongMp.Sdk.Api.Implementation.WukongArchetypes"/>
+            <remarks>
+            Safe to use from an <see cref="T:ReadyM.Api.ECS.Registry.IArchetypeRegistration"/>,
+            unlike the other APIs here: <see cref="T:WukongMp.Sdk.Api.Implementation.WukongArchetypes"/> has no dependencies of
+            its own, so reaching it does not pull the ECS world back into the container while
+            the world is still being built.
+            </remarks>
+        </member>
         <member name="P:WukongMp.Sdk.Api.WukongApi.Input">
             <inheritdoc cref="T:WukongMp.Sdk.Api.IWukongInputApi"/>
         </member>
@@ -589,6 +657,11 @@
         <member name="T:WukongMp.Sdk.Entities.ReadyActor">
             A ReadyActor is an entity that has a mapped Pawn.
         </member>
+        <member name="T:WukongMp.Sdk.Entities.ReadyMainCharacter">
+            <summary>
+            Represents the player character entity in the game.
+            </summary>
+        </member>
         <member name="M:WukongMp.Sdk.Entities.ReadyObjectExtensions.get_Owner``1(``0)">
             <inheritdoc cref="P:WukongMp.Sdk.Entities.ReadyObjectExtensions.&lt;G&gt;$6195CECABC7C3BD151705E592B8D91C0`1.Owner"/>
         </member>
@@ -597,6 +670,11 @@
             Gets the owner of the entity. This is usually the player that spawned the entity, or a player that was handled the ownership after the original owner disconnected.
             </summary>
             <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="T:WukongMp.Sdk.Entities.ReadyTamer">
+            <summary>
+            Represents a tamer (monster) entity in the Wukong multiplayer SDK.
+            </summary>
         </member>
         <member name="T:WukongMp.Sdk.IReadyConvertable`2">
             <exclude />
@@ -658,21 +736,6 @@
         </member>
         <member name="F:WukongMp.Sdk.ModSystemBase.UpdateTick.time">
             <summary> The time at the beginning of the current frame since application start. </summary>
-        </member>
-        <member name="T:WukongMp.Sdk.SaveFileType">
-            <summary>
-            Indicates the type of a save file.
-            </summary>
-        </member>
-        <member name="F:WukongMp.Sdk.SaveFileType.WorldSave">
-            <summary>
-            Indicates a world save file, which contains the state of the world.
-            </summary>
-        </member>
-        <member name="F:WukongMp.Sdk.SaveFileType.PlayerSave">
-            <summary>
-            Indicates a player save file, which contains the equipment, inventory, skills, and other data related to a player.
-            </summary>
         </member>
     </members>
 </doc>

@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ReadyM.Relay.Server.Sdk</name>
+    </assembly>
+    <members>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Components.ComponentRegistry.RegisterLocalComponent``1">
+            <summary>
+            Registers a mod-defined component type with the server ECS.
+            Must be called during <c>ServerModBase.Init()</c>, before any entity creation.
+            Returns the component ID to use in all subsequent <c>Query</c> calls.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Components.ComponentRegistry.RegisterComponent``1">
+            <summary>
+            Registers a mod-defined component type with the server ECS.
+            Must be called during <c>ServerModBase.Init()</c>, before any entity creation.
+            Returns the component ID to use in all subsequent <c>Query</c> calls.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.Components.IComponentRegistry">
+            <summary>
+            Allows registering components with the ECS system, both local and networked.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Components.IComponentRegistry.RegisterLocalComponent``1">
+            <summary>
+            Registers a local (not replicated over the network) component type with the ECS system.
+            </summary>
+            <typeparam name="T">The type of the component to register. Must be a struct.</typeparam>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Components.IComponentRegistry.RegisterComponent``1">
+            <summary>
+            Registers a networked (replicated over the network) component type with the ECS system.
+            </summary>
+            <typeparam name="T">The type of the component to register. Must be a struct that implements <see cref="T:ReadyM.Api.Multiplayer.ECS.Components.INetworkedComponent"/>.</typeparam>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi">
+            <summary>
+            Mod-side ECS API. Wraps the function pointers exposed by the AOT server.
+            All component types - whether defined in the server binary or in this mod - are
+            identified by <c>int</c> component IDs assigned at registration time.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`1">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`2">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`2">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`2">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`3">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`3">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`3">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`4">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`4">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`4">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`5">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`5">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`5">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`6">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`6">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEach`6">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachState`7">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.EcsApi.EmbedForEachStateManaged`7">
+            <exclude />
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.Entity">
+            <summary>
+            Represents an entity in the ECS.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Entity.GetComponent``1">
+            <summary>
+            Gets a reference to the component of type T associated with this entity.
+            </summary>
+            <typeparam name="T">Type of the component</typeparam>
+            <returns>A mutable reference to the component.</returns>
+            <remarks>Attempting to access a component that does not exist on the entity's archetype will crash your mod.</remarks>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.ModComponentManager">
+             <summary>
+             CoreCLR-side owner of plugin component type registrations and all per-archetype heaps.
+            
+             Lifecycle: one instance per ECS world. Call RegisterComponent&lt;T&gt; for each plugin
+             component type during initialization, pass the returned PluginComponentRegistration to the
+             AOT side, then dispose when the world shuts down.
+            
+             The AOT side calls AllocHeap each time a new archetype needs a heap - no coordination
+             needed from the plugin after registration. All allocated heaps are tracked here and
+             disposed in bulk on shutdown.
+             </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.ModComponentManager.RegisterLocalComponent``1">
+            <summary>
+            Registers component type T. Returns a ModComponentRegistration to hand to the
+            AOT relay's RegisterModComponent. The embedded AllocHeap delegate allocates a
+            fresh TypedComponentHeap&lt;T&gt; each time an archetype needs one.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.ModComponentManager.RegisterComponent``1">
+            <summary>
+            Registers component type T. Returns a PluginComponentRegistration to hand to the
+            AOT relay's RegisterPluginComponent. The embedded AllocHeap delegate allocates a
+            fresh TypedComponentHeap&lt;T&gt; each time an archetype needs one.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase">
+            <summary>
+            A base class for server-side mod systems that need to perform updates each tick.
+            Inherit from this class and implement the <see cref="M:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.OnUpdate(ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick)"/> method to define your system's behavior.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick">
+            <summary>
+            Holds the time information for the current update tick.
+            </summary>
+            <param name="deltaTime">Time since last tick, in seconds.</param>
+            <param name="time">Total time since server start, in seconds.</param>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick.#ctor(System.Single,System.Single)">
+            <summary>
+            Holds the time information for the current update tick.
+            </summary>
+            <param name="deltaTime">Time since last tick, in seconds.</param>
+            <param name="time">Total time since server start, in seconds.</param>
+        </member>
+        <member name="F:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick.deltaTime">
+            <summary> The time in seconds since the last tick. </summary>
+        </member>
+        <member name="F:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick.time">
+            <summary> The time at the beginning of the current frame since application start. </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.OnUpdate(ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.UpdateTick)">
+            <summary>
+            Called every tick to update the system. Implement this method in derived classes to define the system's behavior.
+            </summary>
+            <param name="tick"> The current update tick information, including delta time and total time.</param>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.Systems.ModSystemBase.Update(System.Single,System.Single)">
+            <summary>
+            Runs the system update for the current tick.
+            </summary>
+            <param name="deltaTime">Time since last tick, in seconds.</param>
+            <param name="time">Total time since server start, in seconds.</param>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Ecs.TypedComponentHeap`1">
+            <summary>
+            CoreCLR-side owner of a typed component array. Exposes all mutations through delegates so
+            write barriers always fire correctly - even for non-blittable T. The AOT relay holds the
+            resulting AOTHeapPointers and dispatches through them; it never writes directly into the array.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Ecs.TypedComponentHeap`1.GetPointers">
+            <summary>
+            Returns the pointer bundle to hand to the AOT relay for this heap.
+            The returned pointers are stable for the lifetime of this instance.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.AotInitParams">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.AotPointers">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.ArchetypePointers">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.EcsApiPointers">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.HostInitParams">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.ModPointers">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Interop.RpcApiPointers">
+            <exclude/>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.IServerDependencyContainer">
+            <summary>
+            Represents a dependency injection container for server-side mods.
+            Allows registering systems, apart from standard DI services.
+            </summary>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Rpc.RpcApi">
+            <summary>
+            Low-level API for handling RPC messages in the ReadyM Relay Server SDK.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Rpc.RpcApi.AddServerRpcMessageHandler(ReadyM.Api.Multiplayer.Protocol.Enums.RelayMessageCode,System.Action{ReadyM.Api.Multiplayer.Protocol.ServerEventHeader,LiteNetLib.Utils.NetDataReader})">
+            <exclude/>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Rpc.RpcApi.RemoveServerRpcMessageHandler(ReadyM.Api.Multiplayer.Protocol.Enums.RelayMessageCode,System.Action{ReadyM.Api.Multiplayer.Protocol.ServerEventHeader,LiteNetLib.Utils.NetDataReader})">
+            <exclude/>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Rpc.RpcApi.SendToOne(ReadyM.Api.Idents.PlayerId,LiteNetLib.Utils.NetDataWriter,LiteNetLib.DeliveryMethod)">
+            <summary>
+            Sends a message to a specific player with the given data and delivery method.
+            </summary>
+            <param name="player"></param>
+            <param name="data"></param>
+            <param name="deliveryMethod"></param>
+        </member>
+        <member name="T:ReadyM.Relay.Server.Sdk.Rpc.RpcContext">
+            <summary>
+            Contextual information passed to every generated <c>OnX</c> server RPC stub.
+            Wraps per-message metadata so handler signatures stay clean as the context grows.
+            </summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.Rpc.RpcContext.#ctor(ReadyM.Api.Idents.PlayerId)">
+            <summary>
+            Contextual information passed to every generated <c>OnX</c> server RPC stub.
+            Wraps per-message metadata so handler signatures stay clean as the context grows.
+            </summary>
+        </member>
+        <member name="P:ReadyM.Relay.Server.Sdk.Rpc.RpcContext.Sender">
+            <summary>The client player who sent this RPC.</summary>
+        </member>
+        <member name="M:ReadyM.Relay.Server.Sdk.ServerModBase.RegisterComponents(ReadyM.Relay.Server.Sdk.Ecs.Components.IComponentRegistry)">
+            <summary>
+            Any components defined in the mod must be registered here.
+            </summary>
+        </member>
+    </members>
+</doc>
