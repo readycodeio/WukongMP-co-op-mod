@@ -22,7 +22,8 @@ public sealed class Mod : ModBase
         if (WukongApi.Configuration.GetLaunchParameter("SERVER_ID", "") != "")
         {
             services.RegisterSingleton<IFileClient, HttpFileClient>();
-            services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>();
+            // takes over the SDK's WukongSelfHostedSaveApi
+            services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>(replace: true);
         }
 
         services.RegisterSingleton<ColliderDisableData>();
