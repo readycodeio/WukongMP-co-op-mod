@@ -17,7 +17,10 @@ public class ScaleHpSystem(EcsApi ecs, ILogger logger) : ModSystemBase
     {
         // count all players in game, not just the area
         var players = 0;
-        ecs.Query<MainCharacterComponent>((ref _) => { players++; });
+        ecs.Query<MainCharacterComponent, int>(ref players, static (ref _, ref p) =>
+        {
+            p++;
+        });
 
         if (players == 0)
             return;
