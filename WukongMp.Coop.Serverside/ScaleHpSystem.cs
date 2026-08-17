@@ -30,6 +30,9 @@ public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
             if (hp is { HpMaxBase: 0, Hp: 0 })
                 return; // no need to scale if monster is not active
 
+            if (tamer.Guid == "UGuid.HFS.Niu.Teacher")
+                return; // Bullguard's cutscene is a softlock if he has scaled HP
+
             var currentMultPercent = hp.HpMaxMulPercent == 0 ? 100 : hp.HpMaxMulPercent;
             if (targetScalingPercent != currentMultPercent)
             {
