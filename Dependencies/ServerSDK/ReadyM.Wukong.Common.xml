@@ -431,8 +431,8 @@
         <member name="P:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent.InTournament">
             <inheritdoc cref="F:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent._inTournament"/>
         </member>
-        <member name="P:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent.RoundWinnersEncoded">
-            <inheritdoc cref="F:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent._roundWinnersEncoded"/>
+        <member name="M:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent.RoundWinners_SetFromApi(Yooni.Native.Container.NativeList{System.Int32})">
+            <exclude />
         </member>
         <member name="T:ReadyM.Wukong.Common.ECS.Components.PvpStateComponent.Fields">
             <exclude />

@@ -411,7 +411,7 @@
         <member name="M:ReadyM.Api.Multiplayer.ECS.Systems.SendComponentDeltaSystemBase`1.SendToOwner(ReadyM.Api.Idents.PlayerId,LiteNetLib.Utils.NetDataWriter,ReadyM.Api.Multiplayer.ECS.Systems.SendContext)">
             Owner-directed send used for API-authored deltas. Only invoked when SendApiDeltasToOwner is true.
         </member>
-        <member name="M:ReadyM.Api.Multiplayer.ECS.Systems.SendComponentDeltaSystemBase`1.AppendDelta(LiteNetLib.Utils.NetDataWriter,ReadyM.Api.Multiplayer.ECS.Values.NetworkId,`0@,System.Nullable{System.Int32},System.Action{LiteNetLib.Utils.NetDataWriter})">
+        <member name="M:ReadyM.Api.Multiplayer.ECS.Systems.SendComponentDeltaSystemBase`1.AppendDelta(LiteNetLib.Utils.NetDataWriter,ReadyM.Api.Multiplayer.ECS.Values.NetworkId,`0@,System.Nullable{System.Int32},System.Boolean,ReadyM.Api.Idents.PlayerId,ReadyM.Api.Multiplayer.ECS.Systems.SendContext)">
             Writes one entity's delta into <paramref name="writer"/>. On a bounded (unreliable) channel,
             if the delta would overflow the packet the buffer is rewound, the partial packet is flushed,
             a fresh header is written, and the delta is retried once. On an unbounded (reliable) channel
