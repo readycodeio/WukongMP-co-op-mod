@@ -19,7 +19,6 @@
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
         <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
-        <GameDllPath Condition="'$(GameDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Game</GameDllPath>
         <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
     </PropertyGroup>
 
@@ -51,41 +50,6 @@
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
-    <ItemGroup Label="Game DLLs">
-        <Reference Include="b1.Managed" Private="false">
-            <HintPath>$(GameDllPath)\b1.Managed.dll</HintPath>
-        </Reference>
-        <Reference Include="b1.Native" Private="false">
-            <HintPath>$(GameDllPath)\b1.Native.dll</HintPath>
-        </Reference>
-        <Reference Include="b1.NativePlugins" Private="false">
-            <HintPath>$(GameDllPath)\b1.NativePlugins.dll</HintPath>
-        </Reference>
-        <Reference Include="B1UI_GSE.Script" Private="false">
-            <HintPath>$(GameDllPath)\B1UI_GSE.Script.dll</HintPath>
-        </Reference>
-        <Reference Include="BtlSvr.Main" Private="false">
-            <HintPath>$(GameDllPath)\BtlSvr.Main.dll</HintPath>
-        </Reference>
-        <Reference Include="Google.Protobuf" Private="false">
-            <HintPath>$(GameDllPath)\Google.Protobuf.dll</HintPath>
-        </Reference>
-        <Reference Include="GSE.Core" Private="false">
-            <HintPath>$(GameDllPath)\GSE.Core.dll</HintPath>
-        </Reference>
-        <Reference Include="GSE.ProtobufDB" Private="false">
-            <HintPath>$(GameDllPath)\GSE.ProtobufDB.dll</HintPath>
-        </Reference>
-        <Reference Include="Protobuf.RunTime" Private="false">
-            <HintPath>$(GameDllPath)\Protobuf.RunTime.dll</HintPath>
-        </Reference>
-        <Reference Include="UnrealEngine" Private="false">
-            <HintPath>$(GameDllPath)\UnrealEngine.dll</HintPath>
-        </Reference>
-        <Reference Include="UnrealEngine.Runtime" Private="false">
-            <HintPath>$(GameDllPath)\UnrealEngine.Runtime.dll</HintPath>
-        </Reference>
-    </ItemGroup>
 
     <ItemGroup Label="Mod loader DLLs">
         <Reference Include="0Harmony">
@@ -109,4 +73,10 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.8"/>
     </ItemGroup>
 
+
+    <ItemGroup>
+        <!-- Reference-only assemblies for the game. Compile-time only, the real
+             assemblies are already loaded in the game process at runtime. -->
+        <PackageReference Include="ReadyM.Wukong.GameRefs" Version="1.0.21.23831-preview.1" />
+    </ItemGroup>
 </Project>
