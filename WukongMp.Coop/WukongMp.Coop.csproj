@@ -52,37 +52,37 @@
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
     <ItemGroup Label="Game DLLs">
-        <Reference Include="b1.Managed">
+        <Reference Include="b1.Managed" Private="false">
             <HintPath>$(GameDllPath)\b1.Managed.dll</HintPath>
         </Reference>
-        <Reference Include="b1.Native">
+        <Reference Include="b1.Native" Private="false">
             <HintPath>$(GameDllPath)\b1.Native.dll</HintPath>
         </Reference>
-        <Reference Include="b1.NativePlugins">
+        <Reference Include="b1.NativePlugins" Private="false">
             <HintPath>$(GameDllPath)\b1.NativePlugins.dll</HintPath>
         </Reference>
-        <Reference Include="B1UI_GSE.Script">
+        <Reference Include="B1UI_GSE.Script" Private="false">
             <HintPath>$(GameDllPath)\B1UI_GSE.Script.dll</HintPath>
         </Reference>
-        <Reference Include="BtlSvr.Main">
+        <Reference Include="BtlSvr.Main" Private="false">
             <HintPath>$(GameDllPath)\BtlSvr.Main.dll</HintPath>
         </Reference>
-        <Reference Include="Google.Protobuf">
+        <Reference Include="Google.Protobuf" Private="false">
             <HintPath>$(GameDllPath)\Google.Protobuf.dll</HintPath>
         </Reference>
-        <Reference Include="GSE.Core">
+        <Reference Include="GSE.Core" Private="false">
             <HintPath>$(GameDllPath)\GSE.Core.dll</HintPath>
         </Reference>
-        <Reference Include="GSE.ProtobufDB">
+        <Reference Include="GSE.ProtobufDB" Private="false">
             <HintPath>$(GameDllPath)\GSE.ProtobufDB.dll</HintPath>
         </Reference>
-        <Reference Include="Protobuf.RunTime">
+        <Reference Include="Protobuf.RunTime" Private="false">
             <HintPath>$(GameDllPath)\Protobuf.RunTime.dll</HintPath>
         </Reference>
-        <Reference Include="UnrealEngine">
+        <Reference Include="UnrealEngine" Private="false">
             <HintPath>$(GameDllPath)\UnrealEngine.dll</HintPath>
         </Reference>
-        <Reference Include="UnrealEngine.Runtime">
+        <Reference Include="UnrealEngine.Runtime" Private="false">
             <HintPath>$(GameDllPath)\UnrealEngine.Runtime.dll</HintPath>
         </Reference>
     </ItemGroup>
