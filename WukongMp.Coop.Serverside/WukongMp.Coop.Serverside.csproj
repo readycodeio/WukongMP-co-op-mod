@@ -13,14 +13,18 @@
 
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
+        <!-- Where the SDK sources live when building in source mode. An uberrepo overrides
+             these; the defaults assume the repositories sit side by side. -->
+        <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukong-csharp-mod</WukongSdkRoot>
+        <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
         <!-- server mods run on net10.0, so they use the ServerSDK builds, not the netstandard2.0 ones -->
         <ServerSdkDllPath Condition="'$(ServerSdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\ServerSDK</ServerSdkDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Relay.Server.Sdk\ReadyM.Relay.Server.Sdk.csproj" />
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj" />
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Relay.Server.Sdk\ReadyM.Relay.Server.Sdk.csproj" />
+        <ProjectReference Include="$(WukongSdkRoot)\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj" />
     </ItemGroup>
 
     <!-- Standalone clones build against the prebuilt net10.0 SDK in Dependencies/ServerSDK instead. -->

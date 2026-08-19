@@ -8,14 +8,18 @@
 
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
+        <!-- Where the SDK sources live when building in source mode. An uberrepo overrides
+             these; the defaults assume the repositories sit side by side. -->
+        <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukong-csharp-mod</WukongSdkRoot>
+        <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
         <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
         <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Multiplayer\ReadyM.Api.Multiplayer.csproj"/>
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj"/>
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Multiplayer\ReadyM.Api.Multiplayer.csproj"/>
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
+        <ProjectReference Include="$(WukongSdkRoot)\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj"/>
     </ItemGroup>
     
     <ItemGroup Label="SDK DLLs" Condition="'$(UseSdkProjectReferences)' == 'false'">
