@@ -12,33 +12,15 @@
              these; the defaults assume the repositories sit side by side. -->
         <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukong-csharp-mod</WukongSdkRoot>
         <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
-        <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
-        <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
         <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Multiplayer\ReadyM.Api.Multiplayer.csproj"/>
         <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer"/>
-        <ProjectReference Include="$(WukongSdkRoot)\ReadyM.Wukong.Common\ReadyM.Wukong.Common.csproj"/>
     </ItemGroup>
     
-    <ItemGroup Label="SDK DLLs" Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <Reference Include="ReadyM.Api" Private="false">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Api.Multiplayer" Private="false">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.Multiplayer.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Wukong.Common" Private="false">
-            <HintPath>$(SdkDllPath)\ReadyM.Wukong.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="Friflo.Engine.ECS" Private="false">
-            <HintPath>$(SdkDllPath)\Friflo.Engine.ECS.dll</HintPath>
-        </Reference>
-        <Reference Include="LiteNetLib" Private="false">
-            <HintPath>$(LoaderDllPath)\LiteNetLib.dll</HintPath>
-        </Reference>
-        <Analyzer Include="$(SdkDllPath)\ReadyM.Api.Generators.dll"/>
+    <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
+        <PackageReference Include="ReadyM.SDK.Wukong.Common" Version="0.3.1" />
     </ItemGroup>
 
     <ItemGroup>

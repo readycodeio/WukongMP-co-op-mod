@@ -22,8 +22,7 @@
              these; the defaults assume the repositories sit side by side. -->
         <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukong-csharp-mod</WukongSdkRoot>
         <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
-        <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
-        <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
+        <LoaderDllPath Condition="'$(LoaderDllPath)' == ''">$(WukongSdkRoot)\WukongMp.Api\Core</LoaderDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
@@ -31,31 +30,13 @@
         <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
     </ItemGroup>
 
-    <ItemGroup Label="SDK DLLs" Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <Analyzer Include="$(SdkDllPath)\ReadyM.Api.Generators.dll"/>
-        <Reference Include="WukongMp.Api">
-            <HintPath>$(SdkDllPath)\WukongMp.Api.dll</HintPath>
-        </Reference>
-        <Reference Include="WukongMp.Sdk">
-            <HintPath>$(SdkDllPath)\WukongMp.Sdk.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Api">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Api.Multiplayer">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.Multiplayer.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Relay.Client">
-            <HintPath>$(SdkDllPath)\ReadyM.Relay.Client.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Wukong.Common">
-            <HintPath>$(SdkDllPath)\ReadyM.Wukong.Common.dll</HintPath>
-        </Reference>
+    <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
+        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1" />
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
 
-    <ItemGroup Label="Mod loader DLLs">
+    <ItemGroup Label="Mod loader DLLs" Condition="'$(UseSdkProjectReferences)' == 'true'">
         <Reference Include="0Harmony">
             <HintPath>$(LoaderDllPath)\0Harmony.dll</HintPath>
         </Reference>
@@ -67,9 +48,6 @@
         </Reference>
         <Reference Include="PreludeLib">
             <HintPath>$(LoaderDllPath)\PreludeLib.dll</HintPath>
-        </Reference>
-        <Reference Include="LiteNetLib" Condition="'$(UseSdkProjectReferences)' == 'false'">
-            <HintPath>$(LoaderDllPath)\LiteNetLib.dll</HintPath>
         </Reference>
     </ItemGroup>
 
