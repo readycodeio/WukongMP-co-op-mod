@@ -10,7 +10,7 @@
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
         <!-- Where the SDK sources live when building in source mode. An uberrepo overrides
              these; the defaults assume the repositories sit side by side. -->
-        <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukong-csharp-mod</WukongSdkRoot>
+        <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukongmp-sdk</WukongSdkRoot>
         <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
     </PropertyGroup>
 
