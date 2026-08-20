@@ -1,6 +1,6 @@
 # WukongMP 联机合作模组
 
-![version](https://img.shields.io/badge/version-0.3.0-green)
+![version](https://img.shields.io/badge/version-0.3.1-green)
 
 <img src="https://flagcdn.com/gb.svg" width="18" alt="English"/> [English](README.md)
 

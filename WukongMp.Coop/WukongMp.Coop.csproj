@@ -18,76 +18,25 @@
 
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
-        <SdkDllPath Condition="'$(SdkDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\SDK</SdkDllPath>
-        <GameDllPath Condition="'$(GameDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Game</GameDllPath>
-        <LoaderDllPath Condition="'$(CoreDllPath)' == ''">$(MSBuildThisFileDirectory)..\Dependencies\Loader</LoaderDllPath>
+        <!-- Where the SDK sources live when building in source mode. An uberrepo overrides
+             these; the defaults assume the repositories sit side by side. -->
+        <WukongSdkRoot Condition="'$(WukongSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\wukongmp-sdk</WukongSdkRoot>
+        <CoreSdkRoot Condition="'$(CoreSdkRoot)' == ''">$(MSBuildThisFileDirectory)..\..\readym-core-sdk</CoreSdkRoot>
+        <LoaderDllPath Condition="'$(LoaderDllPath)' == ''">$(WukongSdkRoot)\WukongMp.Api\Core</LoaderDllPath>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
-        <ProjectReference Include="..\..\WukongMp.Sdk\WukongMp.Sdk.csproj"/>
-        <ProjectReference Include="..\..\readym-gameserver\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
+        <ProjectReference Include="$(WukongSdkRoot)\WukongMp.Sdk\WukongMp.Sdk.csproj"/>
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
     </ItemGroup>
 
-    <ItemGroup Label="SDK DLLs" Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <Analyzer Include="$(SdkDllPath)\ReadyM.Api.Generators.dll"/>
-        <Reference Include="WukongMp.Api">
-            <HintPath>$(SdkDllPath)\WukongMp.Api.dll</HintPath>
-        </Reference>
-        <Reference Include="WukongMp.Sdk">
-            <HintPath>$(SdkDllPath)\WukongMp.Sdk.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Api">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Api.Multiplayer">
-            <HintPath>$(SdkDllPath)\ReadyM.Api.Multiplayer.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Relay.Client">
-            <HintPath>$(SdkDllPath)\ReadyM.Relay.Client.dll</HintPath>
-        </Reference>
-        <Reference Include="ReadyM.Wukong.Common">
-            <HintPath>$(SdkDllPath)\ReadyM.Wukong.Common.dll</HintPath>
-        </Reference>
+    <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
+        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1" />
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
-    <ItemGroup Label="Game DLLs">
-        <Reference Include="b1.Managed">
-            <HintPath>$(GameDllPath)\b1.Managed.dll</HintPath>
-        </Reference>
-        <Reference Include="b1.Native">
-            <HintPath>$(GameDllPath)\b1.Native.dll</HintPath>
-        </Reference>
-        <Reference Include="b1.NativePlugins">
-            <HintPath>$(GameDllPath)\b1.NativePlugins.dll</HintPath>
-        </Reference>
-        <Reference Include="B1UI_GSE.Script">
-            <HintPath>$(GameDllPath)\B1UI_GSE.Script.dll</HintPath>
-        </Reference>
-        <Reference Include="BtlSvr.Main">
-            <HintPath>$(GameDllPath)\BtlSvr.Main.dll</HintPath>
-        </Reference>
-        <Reference Include="Google.Protobuf">
-            <HintPath>$(GameDllPath)\Google.Protobuf.dll</HintPath>
-        </Reference>
-        <Reference Include="GSE.Core">
-            <HintPath>$(GameDllPath)\GSE.Core.dll</HintPath>
-        </Reference>
-        <Reference Include="GSE.ProtobufDB">
-            <HintPath>$(GameDllPath)\GSE.ProtobufDB.dll</HintPath>
-        </Reference>
-        <Reference Include="Protobuf.RunTime">
-            <HintPath>$(GameDllPath)\Protobuf.RunTime.dll</HintPath>
-        </Reference>
-        <Reference Include="UnrealEngine">
-            <HintPath>$(GameDllPath)\UnrealEngine.dll</HintPath>
-        </Reference>
-        <Reference Include="UnrealEngine.Runtime">
-            <HintPath>$(GameDllPath)\UnrealEngine.Runtime.dll</HintPath>
-        </Reference>
-    </ItemGroup>
 
-    <ItemGroup Label="Mod loader DLLs">
+    <ItemGroup Label="Mod loader DLLs" Condition="'$(UseSdkProjectReferences)' == 'true'">
         <Reference Include="0Harmony">
             <HintPath>$(LoaderDllPath)\0Harmony.dll</HintPath>
         </Reference>
@@ -100,13 +49,16 @@
         <Reference Include="PreludeLib">
             <HintPath>$(LoaderDllPath)\PreludeLib.dll</HintPath>
         </Reference>
-        <Reference Include="LiteNetLib" Condition="'$(UseSdkProjectReferences)' == 'false'">
-            <HintPath>$(LoaderDllPath)\LiteNetLib.dll</HintPath>
-        </Reference>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.8"/>
     </ItemGroup>
 
+
+    <ItemGroup>
+        <!-- Reference-only assemblies for the game. Compile-time only, the real
+             assemblies are already loaded in the game process at runtime. -->
+        <PackageReference Include="ReadyM.Wukong.GameRefs" Version="1.0.21.23831" />
+    </ItemGroup>
 </Project>
