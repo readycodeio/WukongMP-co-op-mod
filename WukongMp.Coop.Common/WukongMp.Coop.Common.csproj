@@ -20,7 +20,7 @@
     </ItemGroup>
     
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <PackageReference Include="ReadyM.SDK.Wukong.Common" Version="0.3.1-preview.1" />
+        <PackageReference Include="ReadyM.SDK.Wukong.Common" Version="0.3.1" />
     </ItemGroup>
 
     <ItemGroup>

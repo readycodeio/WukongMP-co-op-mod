@@ -28,7 +28,7 @@
 
     <!-- Standalone clones build against the prebuilt net10.0 SDK in Dependencies/ServerSDK instead. -->
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <PackageReference Include="ReadyM.SDK.Wukong.Server" Version="0.3.1-preview.1" />
+        <PackageReference Include="ReadyM.SDK.Wukong.Server" Version="0.3.1" />
     </ItemGroup>
 
     <ItemGroup>

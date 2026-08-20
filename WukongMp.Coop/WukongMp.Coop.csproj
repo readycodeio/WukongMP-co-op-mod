@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1-preview.1" />
+        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1" />
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
@@ -59,6 +59,6 @@
     <ItemGroup>
         <!-- Reference-only assemblies for the game. Compile-time only, the real
              assemblies are already loaded in the game process at runtime. -->
-        <PackageReference Include="ReadyM.Wukong.GameRefs" Version="1.0.21.23831-preview.1" />
+        <PackageReference Include="ReadyM.Wukong.GameRefs" Version="1.0.21.23831" />
     </ItemGroup>
 </Project>
