@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ReadyM.Relay.Server.Sdk;
 using ReadyM.Relay.Server.Sdk.Ecs.Components;
+using WukongMp.Coop.Serverside.Systems;
 
 namespace WukongMp.Coop.Serverside;
 

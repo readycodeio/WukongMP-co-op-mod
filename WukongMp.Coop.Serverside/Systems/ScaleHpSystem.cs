@@ -2,7 +2,7 @@
 using ReadyM.Relay.Server.Sdk.Ecs.Systems;
 using ReadyM.Wukong.Common.ECS.Components;
 
-namespace WukongMp.Coop.Serverside;
+namespace WukongMp.Coop.Serverside.Systems;
 
 public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
 {

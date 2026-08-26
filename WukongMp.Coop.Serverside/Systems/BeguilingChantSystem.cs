@@ -4,16 +4,16 @@ using ReadyM.Relay.Server.Sdk.Ecs.Systems;
 using ReadyM.Wukong.Common.ECS.Components;
 using WukongMp.Coop.Common;
 
-namespace WukongMp.Coop.Serverside;
+namespace WukongMp.Coop.Serverside.Systems;
 
 public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) : ModSystemBase
 {
     private const float ChantDurationSeconds = 90f;
     private const float WarningLeadSeconds = 9f;
 
-    private BeguilingChantState state = BeguilingChantState.Inactive;
-    private float phaseTimer = ChantDurationSeconds;
-    private int eligibleLastTick;
+    private BeguilingChantState _state = BeguilingChantState.Inactive;
+    private float _phaseTimer = ChantDurationSeconds;
+    private int _eligibleLastTick;
 
     protected override void OnUpdate(UpdateTick tick)
     {
@@ -26,15 +26,15 @@ public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) :
             }
         });
 
-        var previous = eligibleLastTick;
-        eligibleLastTick = eligible;
+        var previous = _eligibleLastTick;
+        _eligibleLastTick = eligible;
 
         if (eligible == 0)
         {
             if (previous > 0)
             {
                 ResetToInactive();
-                SendToAll(state);
+                SendToAll(_state);
             }
             return;
         }
@@ -43,41 +43,41 @@ public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) :
         {
             // first player entered, start a fresh cycle
             ResetToInactive();
-            SendToAll(state);
+            SendToAll(_state);
             return;
         }
 
-        phaseTimer -= tick.deltaTime;
+        _phaseTimer -= tick.DeltaTime;
 
-        var next = state;
-        if (phaseTimer <= 0f)
+        var next = _state;
+        if (_phaseTimer <= 0f)
         {
-            phaseTimer += ChantDurationSeconds;
-            next = state == BeguilingChantState.Active
+            _phaseTimer += ChantDurationSeconds;
+            next = _state == BeguilingChantState.Active
                 ? BeguilingChantState.Inactive
                 : BeguilingChantState.Active;
         }
-        else if (state == BeguilingChantState.Inactive && phaseTimer <= WarningLeadSeconds)
+        else if (_state == BeguilingChantState.Inactive && _phaseTimer <= WarningLeadSeconds)
         {
             next = BeguilingChantState.Warning;
         }
 
-        if (next != state)
+        if (next != _state)
         {
-            state = next;
-            SendToAll(state);
+            _state = next;
+            SendToAll(_state);
         }
         else if (eligible != previous)
         {
             // someone joined or left mid-phase, resync everyone
-            SendToAll(state);
+            SendToAll(_state);
         }
     }
 
     private void ResetToInactive()
     {
-        state = BeguilingChantState.Inactive;
-        phaseTimer = ChantDurationSeconds;
+        _state = BeguilingChantState.Inactive;
+        _phaseTimer = ChantDurationSeconds;
     }
     
     private void SendToAll(BeguilingChantState state)

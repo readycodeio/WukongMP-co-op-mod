@@ -3,6 +3,7 @@ using ReadyM.Relay.Server.Sdk.Ecs;
 using ReadyM.Relay.Server.Sdk.Rpc;
 using ReadyM.Wukong.Common.ECS.Components;
 using WukongMp.Coop.Common;
+using WukongMp.Coop.Serverside.Systems;
 
 namespace WukongMp.Coop.Serverside;
 
