@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using WukongMp.Api;
+using WukongMp.Coop.Common;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 using FileInfo = ReadyM.Api.Saves.FileInfo;

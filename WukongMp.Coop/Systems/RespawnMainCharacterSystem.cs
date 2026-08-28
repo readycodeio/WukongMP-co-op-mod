@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using WukongMp.Coop.Common;
+using WukongMp.Coop.Configuration;
 using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Entities;
@@ -21,7 +23,13 @@ public sealed class RespawnMainCharacterSystem(ILogger logger) : ModSystemBase
             players++;
 
             // count players who are dead and not yet respawning
-            allDead &= mainCharacter is { IsDead: true, IsTransformed: false, IsRespawning: false };
+            allDead &= mainCharacter is
+            {
+                IsDead: true,
+                IsTransformed: false,
+                IsRespawning: false,
+                WaitingCutsceneId: not Constants.YinTigerChallengeFailedSequenceId,
+            };
         }
 
         if (players == 0)

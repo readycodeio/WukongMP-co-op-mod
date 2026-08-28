@@ -1,4 +1,4 @@
-namespace WukongMp.Coop.Configuration;
+namespace WukongMp.Coop.Common;
 
 public static class Constants
 {
@@ -9,4 +9,5 @@ public static class Constants
     public const int CoopPlayerArchiveId = 7;
     public const float FloatComparisonTolerance = 0.1f;
     public const int MaxPlayers = 10;
+    public const int YinTigerChallengeFailedSequenceId = 31100103;
 }
