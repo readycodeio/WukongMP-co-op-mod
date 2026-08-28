@@ -14,8 +14,6 @@ public class FixYellowbrowSystem : ModSystemBase
 
         foreach (var tamer in WukongApi.Sync.AllTamers)
         {
-            // FIXME(api): Define Guid constants somewhere
-            // FIXME(api): Rename `Guid` to something less confusing
             if (tamer is { IsMonsterActive: true, Hp: < 1f, Guid: "UGuid.LYS.HuangMei.Big" })
             {
                 if (WukongApi.Sync.LocalMainCharacter.Value.IsDead)

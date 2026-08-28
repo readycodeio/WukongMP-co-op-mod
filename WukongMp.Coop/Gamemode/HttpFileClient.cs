@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using ReadyM.Api.Saves;
 using WukongMp.Api.Https;
+using WukongMp.Coop.Common;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 using FileInfo = ReadyM.Api.Saves.FileInfo;

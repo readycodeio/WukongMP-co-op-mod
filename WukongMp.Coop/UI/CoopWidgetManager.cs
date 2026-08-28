@@ -1,6 +1,7 @@
 ﻿using ReadyM.Api.DI;
 using ReadyM.Api.Idents;
 using WukongMp.Api;
+using WukongMp.Coop.Common;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Entities;
