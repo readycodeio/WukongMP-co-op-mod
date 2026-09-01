@@ -1,4 +1,4 @@
-#!powershell.exe -ExecutionPolicy Bypass -File
+﻿#!powershell.exe -ExecutionPolicy Bypass -File
 
 param (
     [string] $Configuration
@@ -51,10 +51,10 @@ else
     Get-ChildItem $outputRoot -Recurse | Remove-Item -Force -Recurse
 }
 
-# Client mods live in a folder of their own, server mods are loose files that all
-# share one server_mods directory.
-$clientRoot = Join-Path (Join-Path $outputRoot 'mods') $clientProject
-$serverRoot = Join-Path $outputRoot 'server_mods'
+# One folder per mod, holding a client and a server side plus the shared manifest.
+$modRoot = Join-Path (Join-Path $outputRoot 'mods') $clientProject
+$clientRoot = Join-Path $modRoot 'client'
+$serverRoot = Join-Path $modRoot 'server'
 New-Item -ItemType Directory -Path $clientRoot -Force | Out-Null
 New-Item -ItemType Directory -Path $serverRoot -Force | Out-Null
 
@@ -111,7 +111,7 @@ if ($Configuration -eq "Debug")
 }
 
 Copy-BuildArtifacts -Files $clientFiles -BaseDir $clientBuildDir -DestDir $clientRoot
-Copy-BuildArtifacts -Files $contentFiles -BaseDir $contentDir -DestDir $clientRoot
+Copy-BuildArtifacts -Files $contentFiles -BaseDir $contentDir -DestDir $modRoot
 Copy-BuildArtifacts -Files $serverFiles -BaseDir $serverBuildDir -DestDir $serverRoot
 
 # Open explorer to the output directory

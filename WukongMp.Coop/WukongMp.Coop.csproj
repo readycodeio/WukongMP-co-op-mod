@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1" />
+        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.4.0" />
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
