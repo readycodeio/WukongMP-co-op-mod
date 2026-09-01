@@ -1,7 +1,8 @@
 ﻿#!powershell.exe -ExecutionPolicy Bypass -File
 
 param (
-    [string] $Configuration
+    [string] $Configuration,
+    [switch] $NoExplorer
 )
 
 # Check params
@@ -111,11 +112,16 @@ if ($Configuration -eq "Debug")
 }
 
 Copy-BuildArtifacts -Files $clientFiles -BaseDir $clientBuildDir -DestDir $clientRoot
-Copy-BuildArtifacts -Files $contentFiles -BaseDir $contentDir -DestDir $modRoot
+Copy-BuildArtifacts -Files $manifestFiles -BaseDir $contentDir -DestDir $modRoot
+Copy-BuildArtifacts -Files $clientContentFiles -BaseDir $contentDir -DestDir $clientRoot
 Copy-BuildArtifacts -Files $serverFiles -BaseDir $serverBuildDir -DestDir $serverRoot
 
 # Open explorer to the output directory
-if ($PSVersionTable.PSEdition -eq 'Core')
+if ($NoExplorer)
+{
+    # nothing to open, this run is scripted
+}
+elseif ($PSVersionTable.PSEdition -eq 'Core')
 {
     Start-Process "explorer.exe" -ArgumentList $outputRoot
 }

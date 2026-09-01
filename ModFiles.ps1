@@ -18,9 +18,11 @@ $clientBuildFiles = @(
     "WukongMp.Coop.Common.dll"
 )
 
-# Copied from the "Content" folder into the mod folder root, next to the manifest
-$contentFiles = @(
-    "manifest.json",
+# Copied from the "Content" folder into the mod folder root
+$manifestFiles = @("manifest.json")
+
+# Copied from the "Content" folder into the client folder
+$clientContentFiles = @(
     "ArchiveSaveFile.1.sav" # Prologue save files for starting a new game
 )
 
