@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using WukongMp.Api.Resources;
+using WukongMp.Coop.Resources;
 using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Entities;
@@ -45,7 +46,7 @@ public sealed class DetectSoftlockSystem(ILogger logger) : ModSystemBase
         if (players > 0 && _waitingSequencesIds.Count > 1 && !localMainCharacter.Value.IsRespawning)
         {
             logger.LogDebug("Softlock detected");
-            WukongApi.Local.ShowInfoMessage(BuiltinTexts.SoftlockDetected);
+            WukongApi.Local.ShowInfoMessage(CoopTexts.SoftlockDetected);
         }
     }
 }

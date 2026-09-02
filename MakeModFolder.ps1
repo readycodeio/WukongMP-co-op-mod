@@ -79,7 +79,12 @@ function Copy-BuildArtifacts
         $sourceFile = Join-Path -Path $BaseDir -ChildPath $file
         $destFile = Join-Path -Path $DestDir -ChildPath $file
 
-        if (Test-Path -Path $sourceFile)
+        if (Test-Path -Path $sourceFile -PathType Container)
+        {
+            Copy-Item -Path $sourceFile -Destination $destFile -Recurse -Force
+            Write-Output "Copied $file/ to $( Split-Path $DestDir -Leaf )."
+        }
+        elseif (Test-Path -Path $sourceFile)
         {
             # Ensure destination directory exists
             $destDir = Split-Path -Parent $destFile
