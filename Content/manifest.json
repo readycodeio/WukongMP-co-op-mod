@@ -1,13 +1,13 @@
 ﻿{
-  "uniqueId": "WukongMp.Coop",
+  "uniqueId": "WukongMP.Coop",
   "version": "0.4.0",
-  "name": "WukongMp Co-op",
-  "author": "ReadyM Team",
+  "name": "WukongMP Co-op mod",
+  "author": "ReadyM",
   "link": "https://docs.ready.mp",
-  "description": "The co-op mod for WukongMp, allowing players to team up and play together through the main story mode.",
+  "description": "The co-op mod for WukongMP, allowing players to team up and play together through the main story mode.",
   "dependencies": [
     {
-      "uniqueId": "WukongMp.Sdk",
+      "uniqueId": "WukongMP.SDK",
       "minimumVersion": "0.4.0"
     }
   ]
