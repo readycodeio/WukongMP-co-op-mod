@@ -1,7 +1,8 @@
-#!powershell.exe -ExecutionPolicy Bypass -File
+﻿#!powershell.exe -ExecutionPolicy Bypass -File
 
 param (
-    [string] $Configuration
+    [string] $Configuration,
+    [switch] $NoExplorer
 )
 
 # Check params
@@ -51,10 +52,10 @@ else
     Get-ChildItem $outputRoot -Recurse | Remove-Item -Force -Recurse
 }
 
-# Client mods live in a folder of their own, server mods are loose files that all
-# share one server_mods directory.
-$clientRoot = Join-Path (Join-Path $outputRoot 'mods') $clientProject
-$serverRoot = Join-Path $outputRoot 'server_mods'
+# One folder per mod, holding a client and a server side plus the shared manifest.
+$modRoot = Join-Path (Join-Path $outputRoot 'mods') $clientProject
+$clientRoot = Join-Path $modRoot 'client'
+$serverRoot = Join-Path $modRoot 'server'
 New-Item -ItemType Directory -Path $clientRoot -Force | Out-Null
 New-Item -ItemType Directory -Path $serverRoot -Force | Out-Null
 
@@ -78,7 +79,12 @@ function Copy-BuildArtifacts
         $sourceFile = Join-Path -Path $BaseDir -ChildPath $file
         $destFile = Join-Path -Path $DestDir -ChildPath $file
 
-        if (Test-Path -Path $sourceFile)
+        if (Test-Path -Path $sourceFile -PathType Container)
+        {
+            Copy-Item -Path $sourceFile -Destination $destFile -Recurse -Force
+            Write-Output "Copied $file/ to $( Split-Path $DestDir -Leaf )."
+        }
+        elseif (Test-Path -Path $sourceFile)
         {
             # Ensure destination directory exists
             $destDir = Split-Path -Parent $destFile
@@ -111,11 +117,16 @@ if ($Configuration -eq "Debug")
 }
 
 Copy-BuildArtifacts -Files $clientFiles -BaseDir $clientBuildDir -DestDir $clientRoot
-Copy-BuildArtifacts -Files $contentFiles -BaseDir $contentDir -DestDir $clientRoot
+Copy-BuildArtifacts -Files $manifestFiles -BaseDir $contentDir -DestDir $modRoot
+Copy-BuildArtifacts -Files $clientContentFiles -BaseDir $contentDir -DestDir $clientRoot
 Copy-BuildArtifacts -Files $serverFiles -BaseDir $serverBuildDir -DestDir $serverRoot
 
 # Open explorer to the output directory
-if ($PSVersionTable.PSEdition -eq 'Core')
+if ($NoExplorer)
+{
+    # nothing to open, this run is scripted
+}
+elseif ($PSVersionTable.PSEdition -eq 'Core')
 {
     Start-Process "explorer.exe" -ArgumentList $outputRoot
 }

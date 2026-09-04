@@ -16,6 +16,35 @@
         <ProjectReference Include="..\WukongMp.Coop.Common\WukongMp.Coop.Common.csproj"/>
     </ItemGroup>
 
+    <!--
+        Resource strings are generated into the assembly, every language inlined, so this mod ships
+        no satellite assemblies. GenerateResource=false stops the .resx being compiled at all, and
+        PreventMSB3030 stops MSBuild trying to copy satellites that were therefore never produced.
+    -->
+    <PropertyGroup>
+        <ResXGenerator_GenerationType>CodeGeneration</ResXGenerator_GenerationType>
+        <ResXGenerator_NullForgivingOperators>true</ResXGenerator_NullForgivingOperators>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aigamo.ResXGenerator" Version="4.4.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="@(EmbeddedResource)">
+            <GenerateResource>false</GenerateResource>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <Target Name="PreventMSB3030" DependsOnTargets="ComputeIntermediateSatelliteAssemblies" BeforeTargets="GenerateSatelliteAssemblies">
+        <ItemGroup>
+            <IntermediateSatelliteAssembliesWithTargetPath Remove="@(IntermediateSatelliteAssembliesWithTargetPath)"/>
+        </ItemGroup>
+    </Target>
+
     <PropertyGroup>
         <UseSdkProjectReferences Condition="'$(UseSdkProjectReferences)' == ''">false</UseSdkProjectReferences>
         <!-- Where the SDK sources live when building in source mode. An uberrepo overrides
@@ -31,7 +60,7 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'false'">
-        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.3.1" />
+        <PackageReference Include="ReadyM.SDK.Wukong.Client" Version="0.4.0" />
     </ItemGroup>
 
     <!-- Third-party game and core DLLs. Paths overridable via Directory.Build.props. -->
