@@ -1,6 +1,6 @@
 # WukongMP co-op mod
 
-![version](https://img.shields.io/badge/version-0.3.1-green)
+![SDK](https://img.shields.io/badge/SDK-0.4.0-green)
 
 <img src="https://flagcdn.com/cn.svg" width="18" alt="Chinese"/> [中文版](README.zh-Hans.md)
 
