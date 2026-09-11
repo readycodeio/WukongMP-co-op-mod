@@ -1,6 +1,6 @@
 ﻿{
   "uniqueId": "WukongMP.Coop",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "name": "WukongMP Co-op mod",
   "author": "ReadyM",
   "link": "https://docs.ready.mp",
@@ -8,7 +8,7 @@
   "dependencies": [
     {
       "uniqueId": "WukongMP.SDK",
-      "minimumVersion": "0.4.0"
+      "minimumVersion": "0.4.1"
     }
   ]
 }
