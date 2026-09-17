@@ -1,6 +1,5 @@
 ﻿using ReadyM.Relay.Server.Sdk.Ecs.Systems;
 using ReadyM.SDK.Server.Entity;
-using ReadyM.Wukong.Common.ECS.Components;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
@@ -41,19 +40,19 @@ public class ScaleHpSystem(IEntities entities) : ModSystemBase
 
         var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, tick.Time);
 
-        foreach (var (tamer, hp) in entities.Query<TamerData, Hp>())
+        foreach (var tamer in entities.Query<Tamer>())
         {
             if (!tamer.IsBossOrElite)
                 continue;
 
             // HpMaxBase is 0 in ECS until the owner has reported it.
-            if (hp.IsDead || hp.HpMaxBase <= 0)
+            if (tamer.IsDead || tamer.HpMaxBase <= 0)
                 continue;
 
             if (tamer.Guid == "UGuid.HFS.Niu.Teacher")
                 continue; // Bullguard's cutscene is a softlock if he has scaled HP
 
-            hp.HpMaxMulPercent = targetScalingPercent;
+            tamer.HpMaxMulPercent = targetScalingPercent;
         }
     }
 
