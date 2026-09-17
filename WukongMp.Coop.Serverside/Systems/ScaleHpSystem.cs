@@ -1,10 +1,11 @@
-﻿using ReadyM.Relay.Server.Sdk.Ecs;
-using ReadyM.Relay.Server.Sdk.Ecs.Systems;
+﻿using ReadyM.Relay.Server.Sdk.Ecs.Systems;
+using ReadyM.SDK.Server.Entity;
 using ReadyM.Wukong.Common.ECS.Components;
+using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
+public class ScaleHpSystem(IEntities entities) : ModSystemBase
 {
     private const int TickInterval = 250; // ECS ticks every 2ms, so ~twice a second
 
@@ -29,27 +30,31 @@ public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
 
         // count all players in game, not just the area
         var players = 0;
-        ecs.Query<MainCharacterComponent, int>(ref players, static (ref _, ref p) => { p++; });
 
+        foreach (var _ in entities.Query<MainCharacter>())
+        {
+            players++;
+        }
+        
         if (players == 0)
             return;
 
         var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, tick.Time);
 
-        ecs.Query<TamerComponent, HpComponent, int>(ref targetScalingPercent, static (ref tamer, ref hp, ref target) =>
+        foreach (var (tamer, hp) in entities.Query<TamerData, Hp>())
         {
             if (!tamer.IsBossOrElite)
-                return;
+                continue;
 
             // HpMaxBase is 0 in ECS until the owner has reported it.
             if (hp.IsDead || hp.HpMaxBase <= 0)
-                return;
+                continue;
 
             if (tamer.Guid == "UGuid.HFS.Niu.Teacher")
-                return; // Bullguard's cutscene is a softlock if he has scaled HP
+                continue; // Bullguard's cutscene is a softlock if he has scaled HP
 
-            hp.HpMaxMulPercent = target;
-        });
+            hp.HpMaxMulPercent = targetScalingPercent;
+        }
     }
 
     private int ResolvePlayerCount(int players, float now)

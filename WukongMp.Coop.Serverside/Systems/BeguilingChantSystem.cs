@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using ReadyM.Relay.Server.Sdk.Ecs;
 using ReadyM.Relay.Server.Sdk.Ecs.Systems;
-using ReadyM.Wukong.Common.ECS.Components;
+using ReadyM.SDK.Server.Entity;
 using WukongMp.Coop.Common;
+using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) : ModSystemBase
+public class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, ILogger logger) : ModSystemBase
 {
     private const float ChantDurationSeconds = 90f;
     private const float WarningLeadSeconds = 9f;
@@ -18,13 +18,13 @@ public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) :
     protected override void OnUpdate(UpdateTick tick)
     {
         var eligible = 0;
-        ecs.Query<MainCharacterComponent, int>(ref eligible, static (ref main, ref eligible) =>
+        foreach (var main in entities.Query<MainCharacter>())
         {
             if (main.BeguilingChantEligible)
             {
                 eligible++;
             }
-        });
+        }
 
         var previous = _eligibleLastTick;
         _eligibleLastTick = eligible;
@@ -36,6 +36,7 @@ public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) :
                 ResetToInactive();
                 SendToAll(_state);
             }
+
             return;
         }
 
@@ -79,13 +80,14 @@ public class BeguilingChantSystem(EcsApi ecs, RpcHandlers rpc, ILogger logger) :
         _state = BeguilingChantState.Inactive;
         _phaseTimer = ChantDurationSeconds;
     }
-    
+
     private void SendToAll(BeguilingChantState state)
     {
         logger.LogDebug("Sending beguling chant state: {State}", state);
-        ecs.Query<MainCharacterComponent>((ref main) =>
+
+        foreach (var main in entities.Query<MainCharacter>())
         {
             rpc.SendBeguilingChant(main.PlayerId, (byte)state);
-        });
+        }
     }
 }
