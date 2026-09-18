@@ -1,25 +1,30 @@
 ﻿using Microsoft.Extensions.Logging;
+using ReadyM.SDK.Client.Entities;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Configuration;
 using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
-using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.Archetypes.Extensions;
+using WukongMp.Sdk.Archetypes.Mixins;
+using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Systems;
 
 // ReSharper disable once UnusedType.Global
-public sealed class RespawnMainCharacterSystem(ILogger logger) : ModSystemBase
+public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logger) : ModSystemBase
 {
     protected override void OnUpdate(UpdateTick tick)
     {
         var allDead = true;
         var players = 0;
-
-        foreach (var mainCharacter in WukongApi.Sync.AllMainCharacters)
+        
+        if (WukongApi.Entities.CurrentArea is not {} currentArea)
         {
-            if (mainCharacter.AreaId != WukongApi.Sync.CurrentAreaId)
-                continue;
+            logger.LogDebug("Skipping respawn, no current area");
+            return;
+        }
 
+        foreach (var mainCharacter in entities.Query<MainCharacter>().InScope(currentArea))
+        {
             players++;
 
             // count players who are dead and not yet respawning
@@ -28,31 +33,34 @@ public sealed class RespawnMainCharacterSystem(ILogger logger) : ModSystemBase
                 IsDead: true,
                 IsTransformed: false,
                 IsRespawning: false,
-                WaitingCutsceneId: not Constants.YinTigerChallengeFailedSequenceId,
+                WaitingSequenceId: not Constants.YinTigerChallengeFailedSequenceId,
             };
         }
 
         if (players == 0)
             return;
 
-        var localMainCharacter = WukongApi.Sync.LocalMainCharacter;
-        if (!localMainCharacter.HasValue)
+        if (WukongApi.Entities.LocalMainCharacter is not {} main)
         {
             logger.LogWarning("Skipping respawn, no local main character entity");
             return;
         }
 
         // if all players are dead, respawn the local player
-        if (players > 0 && allDead && !localMainCharacter.Value.IsRespawning)
+        if (players > 0 && allDead && !main.IsRespawning)
         {
             logger.LogDebug("All {Players} players are dead, respawning player {Player}", players, WukongApi.Sync.LocalPlayerId);
 
-            var furthestRebirthPoint = WukongApi.Sync.AllMainCharacters
-                .Select(mainCharacter => mainCharacter.RebirthPointId)
-                .Prepend(0)
-                .Max();
+            var furthestRebirthPoint = 0;
+            foreach (var mainCharacter in entities.Query<MainCharacter>())
+            {
+                if (mainCharacter.RebirthPointId > furthestRebirthPoint)
+                {
+                    furthestRebirthPoint = mainCharacter.RebirthPointId;
+                }
+            }
 
-            localMainCharacter.Value.RebirthAtShrine(furthestRebirthPoint);
+            main.RebirthAtShrine(furthestRebirthPoint);
         }
     }
 }

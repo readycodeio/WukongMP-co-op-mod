@@ -1,9 +1,7 @@
-﻿using CSharpModBase.Input;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ReadyM.Api.DI;
 using WukongMp.Api;
 using WukongMp.Coop.Commands;
-using WukongMp.Coop.Configuration;
 using WukongMp.Coop.Gamemode;
 using WukongMp.Coop.UI;
 using WukongMp.Sdk;
@@ -22,6 +20,7 @@ public sealed class Mod : ModBase
         if (WukongApi.Configuration.GetLaunchParameter("SERVER_ID", "") != "")
         {
             services.RegisterSingleton<IFileClient, HttpFileClient>();
+
             // takes over the SDK's WukongSelfHostedSaveApi
             services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>(replace: true);
         }
@@ -43,16 +42,5 @@ public sealed class Mod : ModBase
         WukongApi.Configuration.SyncTamerTeamFromGameToEcs = true;
 
         Logger.LogInformation("Initialized {PluginName}", Name);
-    }
-
-    public override void LateInit()
-    {
-        base.LateInit();
-
-        WukongApi.Input.RegisterKeyBind(Key.F6, () =>
-        {
-            Logging.LogDebug("F6: Toggle HP scaling");
-            Config.ScaleMonsterHpToHalf = !Config.ScaleMonsterHpToHalf;
-        });
     }
 }

@@ -7,7 +7,7 @@ using WukongMp.Api;
 using WukongMp.Api.Configuration;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
-using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.Archetypes.Mixins;
 
 namespace WukongMp.Coop.Patches;
 
@@ -45,7 +45,7 @@ public class PatchCheckCanTrigger_HitDynamicObstacleWall
         if (player == null)
             return true;
 
-        if (player != WukongApi.Sync.LocalMainCharacter?.Pawn)
+        if (player != WukongApi.Entities.LocalMainCharacter?.Pawn)
             return true;
 
         var bossActor = GetClosestBossActor(player, player.GetActorLocation());

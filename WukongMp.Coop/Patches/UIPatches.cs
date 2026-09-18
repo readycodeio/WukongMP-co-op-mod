@@ -147,7 +147,7 @@ public class PatchInitBloodBarUI
         if (battleInfoExtendDesc == null)
             return false;
 
-        var maybePlayer = WukongApi.Sync.GetPlayerEntityByActor(actor);
+        var maybePlayer = WukongApi.Entities.GetPlayerEntityByActor(actor);
         var isPlayer = maybePlayer.HasValue;
         var bloodBarShowType = isPlayer ? EBGUBloodBarShowType.Always : EBGUBloodBarShowType.Change;
 

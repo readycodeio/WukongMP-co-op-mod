@@ -1,6 +1,8 @@
-﻿using WukongMp.Sdk;
+﻿using ReadyM.SDK.Client.Entities;
+using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
-using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.Archetypes.Extensions;
+using WukongMp.Sdk.Archetypes.Mixins;
 
 namespace WukongMp.Coop.Systems;
 
@@ -9,17 +11,17 @@ public class FixYellowbrowSystem : ModSystemBase
 {
     protected override void OnUpdate(UpdateTick tick)
     {
-        if (!WukongApi.Sync.InArea || !WukongApi.Sync.LocalMainCharacter.HasValue)
+        if (!WukongApi.Sync.InArea || WukongApi.Entities.LocalMainCharacter is not {} main)
             return;
 
-        foreach (var tamer in WukongApi.Sync.AllTamers)
+        foreach (var tamer in WukongApi.Entities.AllTamers)
         {
-            if (tamer is { IsMonsterActive: true, Hp: < 1f, Guid: "UGuid.LYS.HuangMei.Big" })
+            if (tamer.Guid == "UGuid.LYS.HuangMei.Big" && tamer is { IsMonsterActive: true, Hp: < 1f })
             {
-                if (WukongApi.Sync.LocalMainCharacter.Value.IsDead)
+                if (main.IsDead)
                 {
                     // rebirth player
-                    WukongApi.Sync.LocalMainCharacter.Value.RebirthInPlace();
+                    main.RebirthInPlace();
                 }
             }
         }
