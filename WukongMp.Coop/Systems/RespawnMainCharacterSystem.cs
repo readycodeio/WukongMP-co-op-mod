@@ -16,12 +16,9 @@ public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logge
     {
         var allDead = true;
         var players = 0;
-        
-        if (WukongApi.Entities.CurrentArea is not {} currentArea)
-        {
-            logger.LogDebug("Skipping respawn, no current area");
+
+        if (WukongApi.Entities.CurrentArea is not { } currentArea)
             return;
-        }
 
         foreach (var mainCharacter in entities.Query<MainCharacter>().InScope(currentArea))
         {
@@ -40,7 +37,7 @@ public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logge
         if (players == 0)
             return;
 
-        if (WukongApi.Entities.LocalMainCharacter is not {} main)
+        if (WukongApi.Entities.LocalMainCharacter is not { } main)
         {
             logger.LogWarning("Skipping respawn, no local main character entity");
             return;
