@@ -1,6 +1,6 @@
 using ReadyM.Api.Multiplayer;
 using ReadyM.Relay.Server.Sdk.Rpc;
-using ReadyM.SDK.Server.Entity;
+using ReadyM.SDK.Server.Entities;
 using WukongMp.Coop.Common;
 using WukongMp.Coop.Serverside.Systems;
 using WukongMp.Sdk.Common.Archetypes;

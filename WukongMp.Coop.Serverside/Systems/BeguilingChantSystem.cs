@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReadyM.Relay.Server.Sdk.Ecs.Systems;
-using ReadyM.SDK.Server.Entity;
+using ReadyM.SDK.Server.Entities;
 using WukongMp.Coop.Common;
 using WukongMp.Sdk.Common.Archetypes;
 

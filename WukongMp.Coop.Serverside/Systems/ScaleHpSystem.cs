@@ -1,5 +1,5 @@
 ﻿using ReadyM.Relay.Server.Sdk.Ecs.Systems;
-using ReadyM.SDK.Server.Entity;
+using ReadyM.SDK.Server.Entities;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;

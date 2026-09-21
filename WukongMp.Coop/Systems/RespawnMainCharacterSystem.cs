@@ -38,10 +38,7 @@ public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logge
             return;
 
         if (WukongApi.Entities.LocalMainCharacter is not { } main)
-        {
-            logger.LogWarning("Skipping respawn, no local main character entity");
             return;
-        }
 
         // if all players are dead, respawn the local player
         if (players > 0 && allDead && !main.IsRespawning)

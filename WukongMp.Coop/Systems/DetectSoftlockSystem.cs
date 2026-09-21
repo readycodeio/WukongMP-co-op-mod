@@ -41,10 +41,7 @@ public sealed class DetectSoftlockSystem(IEntities entities, ILogger logger) : M
             return;
 
         if (WukongApi.Entities.LocalMainCharacter is not { } main)
-        {
-            logger.LogWarning("Skipping respawn, no local main character entity");
             return;
-        }
 
         if (players > 0 && _waitingSequencesIds.Count > 1 && !main.IsRespawning)
         {
