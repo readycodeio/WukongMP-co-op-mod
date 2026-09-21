@@ -1,51 +1,56 @@
 ﻿using ReadyM.Api.DI;
 using ReadyM.Api.Idents;
+using ReadyM.SDK.Client.Entities;
+using ReadyM.SDK.Core;
 using WukongMp.Api;
 using WukongMp.Coop.Common;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
+using WukongMp.Sdk.Common.Archetypes;
+using WukongMp.Sdk.Common.Archetypes.Mixins;
 using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.SDK;
 
 namespace WukongMp.Coop.UI;
 
-public sealed class CoopWidgetManager : IHostedService
+public sealed class CoopWidgetManager(IEntities entities, IGameEvents gameEvents) : IHostedService
 {
     private readonly Lazy<CoopStatusWidget> _coopStatusWidget = new();
 
     public void OnScopeStart()
     {
-        WukongApi.Events.OnJoinedArea += OnJoinedArea;
-        WukongApi.Events.OnLeftArea += OnLeftArea;
-        WukongApi.Events.OnOtherPlayerInsideArea += OnOtherPlayerInsideArea;
-        WukongApi.Events.OnOtherPlayerOutsideArea += OnOtherPlayerOutsideArea;
+        gameEvents.OnJoinedArea += OnJoinedArea;
+        gameEvents.OnLeftArea += OnLeftArea;
+        gameEvents.OnOtherPlayerInsideArea += OnOtherPlayerInsideArea;
+        gameEvents.OnOtherPlayerOutsideArea += OnOtherPlayerOutsideArea;
 
-        WukongApi.Events.OnLevelLoaded += OnLevelLoaded;
-        WukongApi.Events.OnExitLevel += OnExitLevel;
-        WukongApi.Events.OnLoadingScreenClose += OnLoadingScreenClose;
+        gameEvents.OnLevelLoaded += OnLevelLoaded;
+        gameEvents.OnExitLevel += OnExitLevel;
+        gameEvents.OnLoadingScreenClose += OnLoadingScreenClose;
 
-        WukongApi.Events.OnPlayerChangedTeam += UpdatePlayerTeam;
-        WukongApi.Events.OnLocalPlayerBeforeRebirth += OnLocalPlayerBeforeRebirth;
+        gameEvents.OnPlayerChangedTeam += UpdatePlayerTeam;
+        gameEvents.OnLocalPlayerBeforeRebirth += OnLocalPlayerBeforeRebirth;
     }
 
     public void Dispose()
     {
-        WukongApi.Events.OnJoinedArea -= OnJoinedArea;
-        WukongApi.Events.OnLeftArea -= OnLeftArea;
-        WukongApi.Events.OnOtherPlayerInsideArea -= OnOtherPlayerInsideArea;
-        WukongApi.Events.OnOtherPlayerOutsideArea -= OnOtherPlayerOutsideArea;
+        gameEvents.OnJoinedArea -= OnJoinedArea;
+        gameEvents.OnLeftArea -= OnLeftArea;
+        gameEvents.OnOtherPlayerInsideArea -= OnOtherPlayerInsideArea;
+        gameEvents.OnOtherPlayerOutsideArea -= OnOtherPlayerOutsideArea;
 
-        WukongApi.Events.OnLevelLoaded -= OnLevelLoaded;
-        WukongApi.Events.OnExitLevel -= OnExitLevel;
-        WukongApi.Events.OnLoadingScreenClose -= OnLoadingScreenClose;
+        gameEvents.OnLevelLoaded -= OnLevelLoaded;
+        gameEvents.OnExitLevel -= OnExitLevel;
+        gameEvents.OnLoadingScreenClose -= OnLoadingScreenClose;
 
-        WukongApi.Events.OnPlayerChangedTeam -= UpdatePlayerTeam;
-        WukongApi.Events.OnLocalPlayerBeforeRebirth -= OnLocalPlayerBeforeRebirth;
+        gameEvents.OnPlayerChangedTeam -= UpdatePlayerTeam;
+        gameEvents.OnLocalPlayerBeforeRebirth -= OnLocalPlayerBeforeRebirth;
     }
 
-    private void UpdatePlayerTeam(ReadyMainCharacter mainCharacter)
+    private void UpdatePlayerTeam(MainCharacter mainCharacter)
     {
-        _coopStatusWidget.Value.RemovePlayer(mainCharacter.Nickname);
-        _coopStatusWidget.Value.AddPlayer(mainCharacter.Nickname);
+        _coopStatusWidget.Value.RemovePlayer(mainCharacter.Nickname.ToString());
+        _coopStatusWidget.Value.AddPlayer(mainCharacter.Nickname.ToString());
         RefreshWidgets();
     }
 
@@ -63,7 +68,7 @@ public sealed class CoopWidgetManager : IHostedService
 
     private void OnLoadingScreenClose()
     {
-        var isOnGameplayLevel = WukongApi.Sync.CurrentAreaId != null;
+        var isOnGameplayLevel = WukongApi.Entities.InArea;
         WukongApi.Widgets.ShowInGameWidgets(isOnGameplayLevel);
 
         if (isOnGameplayLevel)
@@ -75,7 +80,7 @@ public sealed class CoopWidgetManager : IHostedService
 
     private void RefreshWidgets()
     {
-        _coopStatusWidget.Value.SetConnectedCount(WukongApi.Sync.AreaPlayers.Count);
+        _coopStatusWidget.Value.SetConnectedCount(WukongApi.Entities.AreaPlayers.Count);
         _coopStatusWidget.Value.SetMaxConnectedCount(Constants.MaxPlayers);
     }
 
@@ -86,9 +91,9 @@ public sealed class CoopWidgetManager : IHostedService
 
     private void OnOtherPlayerInsideArea(PlayerId playerId, AreaId area)
     {
-        if (WukongApi.Sync.TryGetPlayerInfoById(playerId, out var nickname, out _))
+        if (entities.TryLookup(playerId, out Player player))
         {
-            _coopStatusWidget.Value.AddPlayer(nickname);
+            _coopStatusWidget.Value.AddPlayer(player.Nickname.ToString());
             RefreshWidgets();
         }
         else
@@ -99,19 +104,18 @@ public sealed class CoopWidgetManager : IHostedService
 
     private void OnOtherPlayerOutsideArea(PlayerId playerId, AreaId area)
     {
-        if (WukongApi.Sync.TryGetPlayerInfoById(playerId, out var nickname, out _))
+        if (entities.TryLookup(playerId, out Player player))
         {
-            _coopStatusWidget.Value.RemovePlayer(nickname);
+            _coopStatusWidget.Value.RemovePlayer(player.Nickname.ToString());
             RefreshWidgets();
         }
     }
 
     private void OnJoinedArea(AreaId area)
     {
-        if (WukongApi.Sync.LocalPlayerId.HasValue &&
-            WukongApi.Sync.TryGetPlayerInfoById(WukongApi.Sync.LocalPlayerId.Value, out var nickname, out _))
+        if (WukongApi.Entities.LocalPlayer is {} player)
         {
-            _coopStatusWidget.Value.AddPlayer(nickname);
+            _coopStatusWidget.Value.AddPlayer(player.Nickname.ToString());
             RefreshWidgets();
         }
         else
@@ -122,10 +126,9 @@ public sealed class CoopWidgetManager : IHostedService
 
     private void OnLeftArea(AreaId area)
     {
-        if (WukongApi.Sync.LocalPlayerId.HasValue &&
-            WukongApi.Sync.TryGetPlayerInfoById(WukongApi.Sync.LocalPlayerId.Value, out var nickname, out _))
+        if (WukongApi.Entities.LocalPlayer is {} player)
         {
-            _coopStatusWidget.Value.RemovePlayer(nickname);
+            _coopStatusWidget.Value.RemovePlayer(player.Nickname.ToString());
             RefreshWidgets();
         }
     }

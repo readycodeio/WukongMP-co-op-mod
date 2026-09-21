@@ -175,7 +175,7 @@ public sealed class CoopSaveManager(ILogger logger)
 
         Task.Run(async () =>
         {
-            if (WukongApi.Sync.IsMasterClient)
+            if (WukongApi.Entities.IsMasterClient)
             {
                 var worldTimer = Stopwatch.StartNew();
                 var uploadedWorld = await WukongApi.Saves.UploadWorldSaveAsync(data);

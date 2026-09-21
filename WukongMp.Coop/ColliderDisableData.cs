@@ -4,6 +4,7 @@ using UnrealEngine.Engine;
 using UnrealEngine.Runtime;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
+using WukongMp.Sdk.Archetypes.Mixins;
 using WukongMp.Sdk.Entities;
 
 namespace WukongMp.Coop;
@@ -45,9 +46,9 @@ public sealed class ColliderDisableData(ILogger logger)
         {
             collider.SetActorEnableCollision(true);
 
-            if (WukongApi.Sync.LocalMainCharacter != null)
+            if (WukongApi.Entities.LocalMainCharacter != null)
             {
-                var player = WukongApi.Sync.LocalMainCharacter.Value.Pawn;
+                var player = WukongApi.Entities.LocalMainCharacter.Value.Pawn;
                 var traceLength = player.CapsuleComponent.GetScaledCapsuleRadius() + 20f;
                 var lineTraceDir = GetLineTraceDir_SafeNormal2D(player);
                 var playerLocation = player.BGUGetActorLocation();

@@ -18,13 +18,13 @@ public sealed class DetectSoftlockSystem(IEntities entities, ILogger logger) : M
 
     protected override void OnUpdate(UpdateTick tick)
     {
-        if (!WukongApi.Sync.IsMasterClient)
+        if (!WukongApi.Entities.IsMasterClient)
             return;
 
         var players = 0;
         _waitingSequencesIds.Clear();
 
-        if (WukongApi.Sync.CurrentAreaId is not { } areaId || !entities.TryLookup(areaId, out Area currentArea))
+        if (WukongApi.Entities.CurrentArea is not { } currentArea)
             return;
 
         foreach (var mainCharacter in entities.Query<MainCharacter>().InScope(currentArea))

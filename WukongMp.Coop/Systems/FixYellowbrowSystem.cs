@@ -11,7 +11,7 @@ public class FixYellowbrowSystem : ModSystemBase
 {
     protected override void OnUpdate(UpdateTick tick)
     {
-        if (!WukongApi.Sync.InArea || WukongApi.Entities.LocalMainCharacter is not { } main)
+        if (!WukongApi.Entities.InArea || WukongApi.Entities.LocalMainCharacter is not { } main)
             return;
 
         foreach (var tamer in WukongApi.Entities.AllTamers)

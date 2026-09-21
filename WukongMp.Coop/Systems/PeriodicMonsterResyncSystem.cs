@@ -18,18 +18,18 @@ public sealed class PeriodicMonsterResyncSystem : ModSystemBase
 
     protected override void OnUpdate(UpdateTick tick)
     {
-        if (!WukongApi.Sync.InArea)
+        if (!WukongApi.Entities.InArea)
         {
             _wasMaster = false;
             return;
         }
 
-        var isMaster = WukongApi.Sync.IsMasterClient;
+        var isMaster = WukongApi.Entities.IsMasterClient;
 
         if (isMaster && !_wasMaster)
         {
             Logging.LogInformation("Became master client, rescanning monsters in area immediately");
-            WukongApi.Sync.SyncMonstersInArea();
+            WukongApi.Entities.SyncMonstersInArea();
             _timer = RescanIntervalSeconds;
         }
         else if (isMaster)
@@ -38,7 +38,7 @@ public sealed class PeriodicMonsterResyncSystem : ModSystemBase
             if (_timer <= 0f)
             {
                 _timer = RescanIntervalSeconds;
-                WukongApi.Sync.SyncMonstersInArea();
+                WukongApi.Entities.SyncMonstersInArea();
             }
         }
 

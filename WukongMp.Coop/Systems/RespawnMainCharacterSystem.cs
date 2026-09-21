@@ -43,7 +43,7 @@ public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logge
         // if all players are dead, respawn the local player
         if (players > 0 && allDead && !main.IsRespawning)
         {
-            logger.LogDebug("All {Players} players are dead, respawning player {Player}", players, WukongApi.Sync.LocalPlayerId);
+            logger.LogDebug("All {Players} players are dead, respawning player {Player}", players, main.PlayerId);
 
             var furthestRebirthPoint = 0;
             foreach (var mainCharacter in entities.Query<MainCharacter>())
