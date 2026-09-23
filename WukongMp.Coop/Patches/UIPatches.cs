@@ -21,6 +21,7 @@ using WukongMp.Api.WukongUtils;
 using WukongMp.Coop.Common;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
+using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Patches;
 
@@ -147,8 +148,7 @@ public class PatchInitBloodBarUI
         if (battleInfoExtendDesc == null)
             return false;
 
-        var maybePlayer = WukongApi.Entities.GetPlayerEntityByActor(actor);
-        var isPlayer = maybePlayer.HasValue;
+        var isPlayer = WukongApi.Entities.TryGetByActor(actor, out MainCharacter _);
         var bloodBarShowType = isPlayer ? EBGUBloodBarShowType.Always : EBGUBloodBarShowType.Change;
 
         var isInPlayerTeam = !isPlayer && BGU_DataUtil.GetIsInPlayerTeam(actor);
