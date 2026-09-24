@@ -1,10 +1,12 @@
-﻿using ReadyM.Relay.Server.Sdk.Ecs.Systems;
+﻿using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Server.Entities;
+using ReadyM.SDK.Systems;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-public class ScaleHpSystem(IEntities entities) : ModSystemBase
+[System]
+public partial class ScaleHpSystem(IEntities entities)
 {
     private const int TickInterval = 250; // ECS ticks every 2ms, so ~twice a second
 
@@ -12,7 +14,6 @@ public class ScaleHpSystem(IEntities entities) : ModSystemBase
     /// Apply a drop only once it outlasts that; an increase applies immediately.
     private const float PlayerLossGraceSeconds = 20f;
 
-    private ulong _tick;
     private int _appliedPlayerCount;
     private float? _lowerCountSince;
 
@@ -22,9 +23,9 @@ public class ScaleHpSystem(IEntities entities) : ModSystemBase
         set => Volatile.Write(ref field, value);
     } = 100;
 
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update(Tick tick)
     {
-        if (_tick++ % TickInterval != 0)
+        if (tick.Count % TickInterval != 0)
             return;
 
         // count all players in game, not just the area

@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
-using ReadyM.Relay.Server.Sdk.Ecs.Systems;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Server.Entities;
+using ReadyM.SDK.Systems;
 using WukongMp.Coop.Common;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-public class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, ILogger logger) : ModSystemBase
+[System]
+public partial class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, ILogger logger)
 {
     private const float ChantDurationSeconds = 90f;
     private const float WarningLeadSeconds = 9f;
@@ -15,7 +17,7 @@ public class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, ILogger l
     private float _phaseTimer = ChantDurationSeconds;
     private int _eligibleLastTick;
 
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update(Tick tick)
     {
         var eligible = 0;
         foreach (var main in entities.Query<MainCharacter>())

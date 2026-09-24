@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Logging;
 using ReadyM.Api.DI;
 using ReadyM.Api.Idents;
+using ReadyM.SDK.Client.Mapping;
 using UnrealEngine.Engine;
 using WukongMp.Api;
 using WukongMp.Api.WukongUtils;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Common.Archetypes;
-using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.Common.Archetypes.Mixins;
 using WukongMp.Sdk.SDK;
 
 namespace WukongMp.Coop;
@@ -44,8 +45,7 @@ public sealed class CoopEventCallbacks(IGameEvents gameEvents, ILogger logger) :
             var comp = area.GetComponent<BUS_IntervalTriggerImpl>();
             if (comp != null)
             {
-                var eligible = comp.CurrentState is BUS_IntervalTriggerImpl.IntervalTriggerEnableState;
-                player.BeguilingChantEligible = eligible;
+                player.Pull(MainCharacterData.Field.BeguilingChantEligible, comp);
                 return;
             }
         }

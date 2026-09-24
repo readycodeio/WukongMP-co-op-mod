@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Entities;
 using WukongMp.Coop.Common;
-using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Archetypes.Mixins;
@@ -9,10 +9,10 @@ using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Systems;
 
-// ReSharper disable once UnusedType.Global
-public sealed class RespawnMainCharacterSystem(IEntities entities, ILogger logger) : ModSystemBase
+[System]
+public partial class RespawnMainCharacterSystem(IEntities entities, ILogger logger)
 {
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update()
     {
         var allDead = true;
         var players = 0;

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReadyM.Api.DI;
+using ReadyM.SDK.Client.Mapping;
 using WukongMp.Api;
 using WukongMp.Coop.Commands;
 using WukongMp.Coop.Gamemode;
+using WukongMp.Coop.Mapping;
 using WukongMp.Coop.UI;
 using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
@@ -24,6 +26,8 @@ public sealed class Mod : ModBase
             // takes over the SDK's WukongSelfHostedSaveApi
             services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>(replace: true);
         }
+
+        services.RegisterSingleton<IShapeMappings, CoopMappings>();
 
         services.RegisterSingleton<ColliderDisableData>();
         services.RegisterSingleton<CoopSaveManager>();

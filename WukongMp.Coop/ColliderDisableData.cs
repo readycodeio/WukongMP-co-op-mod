@@ -5,7 +5,6 @@ using UnrealEngine.Runtime;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Mixins;
-using WukongMp.Sdk.Entities;
 
 namespace WukongMp.Coop;
 

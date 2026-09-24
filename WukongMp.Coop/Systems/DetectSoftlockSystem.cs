@@ -1,22 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Entities;
-using ReadyM.SDK.Core;
-using WukongMp.Api.Resources;
 using WukongMp.Coop.Resources;
-using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Mixins;
 using WukongMp.Sdk.Common.Archetypes;
-using WukongMp.Sdk.Entities;
 
 namespace WukongMp.Coop.Systems;
 
-// ReSharper disable once UnusedType.Global
-public sealed class DetectSoftlockSystem(IEntities entities, ILogger logger) : ModSystemBase
+[System]
+public partial class DetectSoftlockSystem(IEntities entities, ILogger logger)
 {
     private readonly HashSet<int> _waitingSequencesIds = [];
 
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update()
     {
         if (!WukongApi.Entities.IsMasterClient)
             return;

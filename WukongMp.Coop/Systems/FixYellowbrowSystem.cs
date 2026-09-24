@@ -1,15 +1,15 @@
-﻿using ReadyM.SDK.Client.Entities;
-using WukongMp.Sdk;
+﻿using ReadyM.SDK.Attributes;
+using ReadyM.SDK.Client.Entities;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Archetypes.Mixins;
 
 namespace WukongMp.Coop.Systems;
 
-// ReSharper disable once UnusedType.Global
-public class FixYellowbrowSystem : ModSystemBase
+[System]
+public partial class FixYellowbrowSystem
 {
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update()
     {
         if (!WukongApi.Entities.InArea || WukongApi.Entities.LocalMainCharacter is not { } main)
             return;

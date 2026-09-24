@@ -19,7 +19,6 @@ using WukongMp.Api.Configuration;
 using WukongMp.Api.Resources;
 using WukongMp.Api.WukongUtils;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Common.Archetypes;
 

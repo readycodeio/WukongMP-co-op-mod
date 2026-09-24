@@ -1,20 +1,21 @@
-﻿using WukongMp.Sdk;
+﻿using ReadyM.SDK.Attributes;
+using ReadyM.SDK.Systems;
 using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop.Systems;
 
-// ReSharper disable once UnusedType.Global
-public sealed class ReEnableCollidersSystem(ColliderDisableData data) : ModSystemBase
+[System]
+public partial class ReEnableCollidersSystem(ColliderDisableData data)
 {
     private const float TickIntervalSeconds = 1; // Check every second
     private float _elapsedTime;
 
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update(Tick tick)
     {
         if (!WukongApi.Local.IsGameplayLevel)
             return;
 
-        _elapsedTime += tick.deltaTime;
+        _elapsedTime += tick.DeltaTime;
 
         if (_elapsedTime < TickIntervalSeconds)
             return;

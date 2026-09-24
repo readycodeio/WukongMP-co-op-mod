@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using PreludeLib.Compat;
 using UnrealEngine.Runtime;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop.Gamemode;
