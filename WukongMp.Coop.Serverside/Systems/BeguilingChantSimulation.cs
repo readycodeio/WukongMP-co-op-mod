@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Server.Entities;
-using ReadyM.SDK.Systems;
 using WukongMp.Coop.Common;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-[System]
-public partial class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, ILogger logger)
+[Service]
+public sealed partial class BeguilingChantSimulation(IEntities entities, RpcHandlers rpc, ILogger logger)
 {
     private const float ChantDurationSeconds = 90f;
     private const float WarningLeadSeconds = 9f;
@@ -17,7 +16,7 @@ public partial class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, I
     private float _phaseTimer = ChantDurationSeconds;
     private int _eligibleLastTick;
 
-    private void Update(Tick tick)
+    private void Update()
     {
         var eligible = 0;
         foreach (var main in entities.Query<MainCharacter>())
@@ -50,7 +49,7 @@ public partial class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, I
             return;
         }
 
-        _phaseTimer -= tick.DeltaTime;
+        _phaseTimer -= Time.DeltaTime;
 
         var next = _state;
         if (_phaseTimer <= 0f)
@@ -85,7 +84,7 @@ public partial class BeguilingChantSystem(IEntities entities, RpcHandlers rpc, I
 
     private void SendToAll(BeguilingChantState state)
     {
-        logger.LogDebug("Sending beguling chant state: {State}", state);
+        logger.LogDebug("Sending beguiling chant state: {State}", state);
 
         foreach (var main in entities.Query<MainCharacter>())
         {

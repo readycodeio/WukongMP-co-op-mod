@@ -4,10 +4,10 @@ using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Archetypes.Mixins;
 
-namespace WukongMp.Coop.Systems;
+namespace WukongMp.Coop.Services;
 
-[System]
-public partial class FixYellowbrowSystem
+[Service]
+public sealed partial class YellowbrowFix
 {
     private void Update()
     {

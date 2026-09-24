@@ -1,16 +1,18 @@
 ﻿using b1;
 using B1UI;
 using ReadyM.Api.Command;
+using ReadyM.SDK.Attributes;
 using UnrealEngine.Engine;
 using UnrealEngine.Runtime;
 using WukongMp.Api.WukongUtils;
 using WukongMp.Sdk.Api;
 
-namespace WukongMp.Coop.Commands;
+namespace WukongMp.Coop.Services;
 
-public static class CoopCommandRegistrations
+[Service]
+public sealed partial class CommandDefinitions(IWukongConsoleApi consoleApi)
 {
-    public static void RegisterCommands(IWukongConsoleApi consoleApi)
+    private void Start()
     {
         consoleApi.AddCommand("cutscene", ConsoleCommand.Create(PlayCutscene, true));
         consoleApi.AddCommand("teleport", ConsoleCommand.Create(Teleport, true));
@@ -35,9 +37,9 @@ public static class CoopCommandRegistrations
     {
         UGameplayStatics.OpenLevel(GameUtils.GetWorld(), new FName(name));
     }
-    
+
     private static void CustomScaling(int scale = 100)
-    {        
+    {
         if (scale <= 0)
         {
             WukongApi.Chat.ShowLocalMessage("Boss HP scaling must be > 0%", FLinearColor.OrangeRed);

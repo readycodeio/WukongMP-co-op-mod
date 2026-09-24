@@ -1,12 +1,11 @@
 ﻿using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Server.Entities;
-using ReadyM.SDK.Systems;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside.Systems;
 
-[System]
-public partial class ScaleHpSystem(IEntities entities)
+[Service]
+public sealed partial class BossHpScaling(IEntities entities)
 {
     private const int TickInterval = 250; // ECS ticks every 2ms, so ~twice a second
 
@@ -23,9 +22,9 @@ public partial class ScaleHpSystem(IEntities entities)
         set => Volatile.Write(ref field, value);
     } = 100;
 
-    private void Update(Tick tick)
+    private void Update()
     {
-        if (tick.Count % TickInterval != 0)
+        if (Time.Ticks % TickInterval != 0)
             return;
 
         // count all players in game, not just the area
@@ -39,7 +38,7 @@ public partial class ScaleHpSystem(IEntities entities)
         if (players == 0)
             return;
 
-        var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, tick.Time);
+        var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, Time.Elapsed);
 
         foreach (var tamer in entities.Query<Tamer>())
         {

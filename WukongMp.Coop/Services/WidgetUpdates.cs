@@ -1,21 +1,23 @@
-﻿using ReadyM.Api.DI;
-using ReadyM.Api.Idents;
+﻿using ReadyM.Api.Idents;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Entities;
 using ReadyM.SDK.Core;
 using WukongMp.Api;
 using WukongMp.Coop.Common;
+using WukongMp.Coop.UI;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Common.Archetypes;
 using WukongMp.Sdk.Common.Archetypes.Mixins;
 using WukongMp.Sdk.SDK;
 
-namespace WukongMp.Coop.UI;
+namespace WukongMp.Coop.Services;
 
-public sealed class CoopWidgetManager(IEntities entities, IGameEvents gameEvents) : IHostedService
+[Service]
+public sealed partial class WidgetUpdates(IEntities entities, IGameEvents gameEvents)
 {
     private readonly Lazy<CoopStatusWidget> _coopStatusWidget = new();
 
-    public void OnScopeStart()
+    private void Start()
     {
         gameEvents.OnJoinedArea += OnJoinedArea;
         gameEvents.OnLeftArea += OnLeftArea;
@@ -30,7 +32,7 @@ public sealed class CoopWidgetManager(IEntities entities, IGameEvents gameEvents
         gameEvents.OnLocalPlayerBeforeRebirth += OnLocalPlayerBeforeRebirth;
     }
 
-    public void Dispose()
+    private void Stop()
     {
         gameEvents.OnJoinedArea -= OnJoinedArea;
         gameEvents.OnLeftArea -= OnLeftArea;

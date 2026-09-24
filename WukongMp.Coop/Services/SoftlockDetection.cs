@@ -6,10 +6,10 @@ using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Mixins;
 using WukongMp.Sdk.Common.Archetypes;
 
-namespace WukongMp.Coop.Systems;
+namespace WukongMp.Coop.Services;
 
-[System]
-public partial class DetectSoftlockSystem(IEntities entities, ILogger logger)
+[Service]
+public sealed partial class SoftlockDetection(IEntities entities, ILogger logger)
 {
     private readonly HashSet<int> _waitingSequencesIds = [];
 

@@ -8,7 +8,7 @@ using WukongMp.Sdk.Common.Archetypes;
 namespace WukongMp.Coop.Serverside;
 
 [ServerRpcFor(typeof(CoopRpcContracts))]
-public partial class RpcHandlers(ScaleHpSystem hpScaling, IEntities entities) : ServerRpcHandlersBase
+public partial class RpcHandlers(BossHpScaling hpScaling, IEntities entities) : ServerRpcHandlersBase
 {
     partial void OnScaleBossHp(RpcContext context, int scalingPercent)
     {

@@ -1,7 +1,7 @@
 ﻿using b1;
 using Microsoft.Extensions.Logging;
-using ReadyM.Api.DI;
 using ReadyM.Api.Idents;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Mapping;
 using UnrealEngine.Engine;
 using WukongMp.Api;
@@ -12,18 +12,19 @@ using WukongMp.Sdk.Common.Archetypes;
 using WukongMp.Sdk.Common.Archetypes.Mixins;
 using WukongMp.Sdk.SDK;
 
-namespace WukongMp.Coop;
+namespace WukongMp.Coop.Services;
 
-public sealed class CoopEventCallbacks(IGameEvents gameEvents, ILogger logger) : IHostedService
+[Service]
+public sealed partial class EventCallbacks(IGameEvents gameEvents, ILogger logger)
 {
-    public void OnScopeStart()
+    private void Start()
     {
         gameEvents.OnJoinedArea += OnJoinedAreaHandler;
         gameEvents.OnPlayerPawnSpawned += OnPlayerPawnSpawned;
         gameEvents.OnMainCharacterEntityInitialized += OnMainCharacterEntityInitialized;
     }
 
-    public void Dispose()
+    private void Stop()
     {
         gameEvents.OnJoinedArea -= OnJoinedAreaHandler;
         gameEvents.OnPlayerPawnSpawned -= OnPlayerPawnSpawned;

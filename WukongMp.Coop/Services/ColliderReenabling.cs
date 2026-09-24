@@ -1,21 +1,20 @@
 ﻿using ReadyM.SDK.Attributes;
-using ReadyM.SDK.Systems;
 using WukongMp.Sdk.Api;
 
-namespace WukongMp.Coop.Systems;
+namespace WukongMp.Coop.Services;
 
-[System]
-public partial class ReEnableCollidersSystem(ColliderDisableData data)
+[Service]
+public sealed partial class ColliderReenabling(ColliderDisableData data)
 {
     private const float TickIntervalSeconds = 1; // Check every second
     private float _elapsedTime;
 
-    private void Update(Tick tick)
+    private void Update()
     {
         if (!WukongApi.Local.IsGameplayLevel)
             return;
 
-        _elapsedTime += tick.DeltaTime;
+        _elapsedTime += Time.DeltaTime;
 
         if (_elapsedTime < TickIntervalSeconds)
             return;

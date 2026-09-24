@@ -8,6 +8,7 @@ public class CoopMappings : IShapeMappings
 {
     public void Register(IShapeMappingRegistry registry)
     {
+        // TODO: Field should probably be declared in this mod as a mixin, or the logic should be moved to SDK
         registry.For<MainCharacterData, BUS_IntervalTriggerImpl>()
             .Map(
                 MainCharacterData.Field.BeguilingChantEligible,

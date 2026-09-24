@@ -7,10 +7,10 @@ using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Archetypes.Mixins;
 using WukongMp.Sdk.Common.Archetypes;
 
-namespace WukongMp.Coop.Systems;
+namespace WukongMp.Coop.Services;
 
-[System]
-public partial class RespawnMainCharacterSystem(IEntities entities, ILogger logger)
+[Service]
+public sealed partial class PlayerRespawn(IEntities entities, ILogger logger)
 {
     private void Update()
     {
