@@ -1,20 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
 using ReadyM.Api.DI;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Mapping;
 using WukongMp.Api;
 using WukongMp.Coop.Gamemode;
 using WukongMp.Coop.Mapping;
-using WukongMp.Sdk;
 using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public sealed class Mod : ModBase
+[ModEntry]
+public sealed partial class Mod(IDependencyContainer services, ILogger logger)
 {
-    public override string Name => "WukongMp.Coop";
-
-    protected override void Initialize(IDependencyContainer services)
+    private void Start()
     {
         // Launcher will set SERVER_ID when playing on hosted ReadyM servers
         if (WukongApi.Configuration.GetLaunchParameter("SERVER_ID", "") != "")
@@ -25,13 +23,14 @@ public sealed class Mod : ModBase
             services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>(replace: true);
         }
 
+        // TODO: A more direct API for registering this
         services.RegisterSingleton<IShapeMappings, CoopMappings>();
 
         services.RegisterSingleton<ColliderDisableData>();
         services.RegisterSingleton<CoopSaveManager>();
         services.RegisterSingleton<CoopServerRpc>();
 
-        Logger.LogInformation("Initializing {ModName}", Name);
+        logger.LogInformation("Initializing co-op mod");
 
         WukongApi.Configuration.IsSupportMultiLockEnabled = true;
         WukongApi.Configuration.IsStrongDamageImmueEnabled = false;
@@ -39,6 +38,6 @@ public sealed class Mod : ModBase
         WukongApi.Configuration.DeleteDestroyedTamersFromEcs = false;
         WukongApi.Configuration.SyncTamerTeamFromGameToEcs = true;
 
-        Logger.LogInformation("Initialized {PluginName}", Name);
+        logger.LogInformation("Initialized co-op mod");
     }
 }

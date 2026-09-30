@@ -1,17 +1,15 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Extensions.Logging;
-using ReadyM.Relay.Server.Sdk;
+﻿using Microsoft.Extensions.Logging;
+using ReadyM.Api.DI;
+using ReadyM.SDK.Attributes;
 
 namespace WukongMp.Coop.Serverside;
 
-[UsedImplicitly]
-public class Mod : ServerModBase
+[ModEntry]
+public sealed partial class Mod(IDependencyContainer services, ILogger logger)
 {
-    protected override void Init()
+    private void Start()
     {
-        Services.RegisterSingleton<RpcHandlers>();
-
-        var logger = Services.Resolve<ILogger>();
+        services.RegisterSingleton<RpcHandlers>();
         logger.LogInformation("Serverside SDK mod initialized");
     }
 }
