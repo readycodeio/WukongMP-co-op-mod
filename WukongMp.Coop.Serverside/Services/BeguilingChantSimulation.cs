@@ -4,7 +4,7 @@ using ReadyM.SDK.Server.Entities;
 using WukongMp.Coop.Common;
 using WukongMp.Sdk.Common.Archetypes;
 
-namespace WukongMp.Coop.Serverside.Systems;
+namespace WukongMp.Coop.Serverside.Services;
 
 [Service]
 public sealed partial class BeguilingChantSimulation(IEntities entities, RpcHandlers rpc, ILogger logger)

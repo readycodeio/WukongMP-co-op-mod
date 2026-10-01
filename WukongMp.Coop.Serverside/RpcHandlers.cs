@@ -1,14 +1,14 @@
-using ReadyM.Api.Multiplayer;
 using ReadyM.Relay.Server.Sdk.Rpc;
+using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Server.Entities;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Serverside.Systems;
+using WukongMp.Coop.Serverside.Services;
 using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside;
 
-[ServerRpcFor(typeof(CoopRpcContracts))]
-public partial class RpcHandlers(BossHpScaling hpScaling, IEntities entities) : ServerRpcHandlersBase
+[RpcHandlersFor(typeof(CoopRpcContracts))]
+public partial class RpcHandlers(BossHpScaling hpScaling, IEntities entities)
 {
     partial void OnScaleBossHp(RpcContext context, int scalingPercent)
     {

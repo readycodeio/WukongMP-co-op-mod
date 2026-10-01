@@ -10,7 +10,7 @@ using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Archetypes.Extensions;
 using WukongMp.Sdk.Common.Archetypes;
 using WukongMp.Sdk.Common.Archetypes.Mixins;
-using WukongMp.Sdk.SDK;
+using WukongMp.Sdk.Events;
 
 namespace WukongMp.Coop.Services;
 

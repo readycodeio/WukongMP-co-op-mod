@@ -1,14 +1,14 @@
 ﻿using ReadyM.Api.Idents;
 using ReadyM.SDK.Attributes;
 using ReadyM.SDK.Client.Entities;
-using ReadyM.SDK.Core;
+using ReadyM.SDK.Archetypes.Core;
 using WukongMp.Api;
 using WukongMp.Coop.Common;
 using WukongMp.Coop.UI;
 using WukongMp.Sdk.Api;
 using WukongMp.Sdk.Common.Archetypes;
 using WukongMp.Sdk.Common.Archetypes.Mixins;
-using WukongMp.Sdk.SDK;
+using WukongMp.Sdk.Events;
 
 namespace WukongMp.Coop.Services;
 

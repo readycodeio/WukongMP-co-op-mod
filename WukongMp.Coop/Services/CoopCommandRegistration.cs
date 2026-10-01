@@ -46,7 +46,7 @@ public sealed partial class CommandDefinitions(IWukongConsoleApi consoleApi)
             return;
         }
 
-        var rpc = WukongApi.Services.Resolve<CoopServerRpc>();
+        var rpc = WukongApi.Services.Resolve<RpcHandlers>();
         rpc.SendScaleBossHp(scale);
     }
 }

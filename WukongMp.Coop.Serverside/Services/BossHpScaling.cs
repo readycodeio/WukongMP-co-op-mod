@@ -2,7 +2,7 @@
 using ReadyM.SDK.Server.Entities;
 using WukongMp.Sdk.Common.Archetypes;
 
-namespace WukongMp.Coop.Serverside.Systems;
+namespace WukongMp.Coop.Serverside.Services;
 
 [Service]
 public sealed partial class BossHpScaling(IEntities entities)

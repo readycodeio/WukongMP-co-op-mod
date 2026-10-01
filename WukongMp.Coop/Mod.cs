@@ -28,7 +28,6 @@ public sealed partial class Mod(IDependencyContainer services, ILogger logger)
 
         services.RegisterSingleton<ColliderDisableData>();
         services.RegisterSingleton<CoopSaveManager>();
-        services.RegisterSingleton<CoopServerRpc>();
 
         logger.LogInformation("Initializing co-op mod");
 

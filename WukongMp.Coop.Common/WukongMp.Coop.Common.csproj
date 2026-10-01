@@ -15,6 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(UseSdkProjectReferences)' == 'true'">
+        <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.SDK\ReadyM.SDK.csproj"/>
         <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Multiplayer\ReadyM.Api.Multiplayer.csproj"/>
         <ProjectReference Include="$(CoreSdkRoot)\src\ReadyM.Api.Generators\ReadyM.Api.Generators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
     </ItemGroup>
