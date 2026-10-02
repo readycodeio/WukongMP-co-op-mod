@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using PreludeLib.Compat;
 using UnrealEngine.Runtime;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop.Gamemode;
@@ -175,7 +174,7 @@ public sealed class CoopSaveManager(ILogger logger)
 
         Task.Run(async () =>
         {
-            if (WukongApi.Sync.IsMasterClient)
+            if (WukongApi.Entities.IsMasterClient)
             {
                 var worldTimer = Stopwatch.StartNew();
                 var uploadedWorld = await WukongApi.Saves.UploadWorldSaveAsync(data);

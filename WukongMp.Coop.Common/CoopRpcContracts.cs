@@ -1,8 +1,9 @@
 ﻿using ReadyM.Api.Multiplayer;
+using ReadyM.SDK.Attributes;
 
 namespace WukongMp.Coop.Common;
 
-[ServerRpcContracts]
+[RpcContracts]
 public static partial class CoopRpcContracts
 {
     [ServerToClient] public static partial void BeguilingChant(byte state);

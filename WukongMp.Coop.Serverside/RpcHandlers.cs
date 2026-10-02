@@ -1,28 +1,25 @@
-using ReadyM.Api.Multiplayer;
-using ReadyM.Relay.Server.Sdk.Ecs;
 using ReadyM.Relay.Server.Sdk.Rpc;
-using ReadyM.Wukong.Common.ECS.Components;
+using ReadyM.SDK.Attributes;
+using ReadyM.SDK.Server.Entities;
 using WukongMp.Coop.Common;
-using WukongMp.Coop.Serverside.Systems;
+using WukongMp.Coop.Serverside.Services;
+using WukongMp.Sdk.Common.Archetypes;
 
 namespace WukongMp.Coop.Serverside;
 
-[ServerRpcFor(typeof(CoopRpcContracts))]
-public partial class RpcHandlers(ScaleHpSystem hpScaling, EcsApi ecs) : ServerRpcHandlersBase
+[RpcHandlersFor(typeof(CoopRpcContracts))]
+public partial class RpcHandlers(BossHpScaling hpScaling, IEntities entities)
 {
     partial void OnScaleBossHp(RpcContext context, int scalingPercent)
     {
         hpScaling.ScalingPercent = scalingPercent;
 
         var players = 0;
-        ecs.Query<MainCharacterComponent>((ref _) =>
-        {
-            players++;
-        });
 
-        ecs.Query<MainCharacterComponent>((ref player) =>
-        {
-            SendBossHpScaleConfirm(player.PlayerId, scalingPercent, players);
-        });
+        foreach (var _ in entities.Query<MainCharacter>())
+            players++;
+
+        foreach (var main in entities.Query<MainCharacter>())
+            SendBossHpScaleConfirm(main.PlayerId, scalingPercent, players);
     }
 }

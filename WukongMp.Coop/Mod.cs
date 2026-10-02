@@ -1,40 +1,35 @@
-﻿using CSharpModBase.Input;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using ReadyM.Api.DI;
+using ReadyM.SDK.Attributes;
+using ReadyM.SDK.Client.Mapping;
 using WukongMp.Api;
-using WukongMp.Coop.Commands;
-using WukongMp.Coop.Configuration;
 using WukongMp.Coop.Gamemode;
-using WukongMp.Coop.UI;
-using WukongMp.Sdk;
+using WukongMp.Coop.Mapping;
 using WukongMp.Sdk.Api;
 
 namespace WukongMp.Coop;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public sealed class Mod : ModBase
+[ModEntry]
+public sealed partial class Mod(IDependencyContainer services, ILogger logger)
 {
-    public override string Name => "WukongMp.Coop";
-
-    protected override void Initialize(IDependencyContainer services)
+    private void Start()
     {
         // Launcher will set SERVER_ID when playing on hosted ReadyM servers
         if (WukongApi.Configuration.GetLaunchParameter("SERVER_ID", "") != "")
         {
             services.RegisterSingleton<IFileClient, HttpFileClient>();
+
             // takes over the SDK's WukongSelfHostedSaveApi
             services.RegisterSingleton<IWukongSaveApi, CloudWukongSaveApi>(replace: true);
         }
 
+        // TODO: A more direct API for registering this
+        services.RegisterSingleton<IShapeMappings, CoopMappings>();
+
         services.RegisterSingleton<ColliderDisableData>();
         services.RegisterSingleton<CoopSaveManager>();
-        services.RegisterSingleton<CoopWidgetManager>();
-        services.RegisterSingleton<CoopEventCallbacks>();
-        services.RegisterSingleton<CoopServerRpc>();
 
-        Logger.LogInformation("Initializing {ModName}", Name);
-
-        CoopCommandRegistrations.RegisterCommands(WukongApi.Console);
+        logger.LogInformation("Initializing co-op mod");
 
         WukongApi.Configuration.IsSupportMultiLockEnabled = true;
         WukongApi.Configuration.IsStrongDamageImmueEnabled = false;
@@ -42,17 +37,6 @@ public sealed class Mod : ModBase
         WukongApi.Configuration.DeleteDestroyedTamersFromEcs = false;
         WukongApi.Configuration.SyncTamerTeamFromGameToEcs = true;
 
-        Logger.LogInformation("Initialized {PluginName}", Name);
-    }
-
-    public override void LateInit()
-    {
-        base.LateInit();
-
-        WukongApi.Input.RegisterKeyBind(Key.F6, () =>
-        {
-            Logging.LogDebug("F6: Toggle HP scaling");
-            Config.ScaleMonsterHpToHalf = !Config.ScaleMonsterHpToHalf;
-        });
+        logger.LogInformation("Initialized co-op mod");
     }
 }

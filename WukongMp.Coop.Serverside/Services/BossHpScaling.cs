@@ -1,10 +1,11 @@
-﻿using ReadyM.Relay.Server.Sdk.Ecs;
-using ReadyM.Relay.Server.Sdk.Ecs.Systems;
-using ReadyM.Wukong.Common.ECS.Components;
+﻿using ReadyM.SDK.Attributes;
+using ReadyM.SDK.Server.Entities;
+using WukongMp.Sdk.Common.Archetypes;
 
-namespace WukongMp.Coop.Serverside.Systems;
+namespace WukongMp.Coop.Serverside.Services;
 
-public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
+[Service]
+public sealed partial class BossHpScaling(IEntities entities)
 {
     private const int TickInterval = 250; // ECS ticks every 2ms, so ~twice a second
 
@@ -12,7 +13,6 @@ public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
     /// Apply a drop only once it outlasts that; an increase applies immediately.
     private const float PlayerLossGraceSeconds = 20f;
 
-    private ulong _tick;
     private int _appliedPlayerCount;
     private float? _lowerCountSince;
 
@@ -22,34 +22,38 @@ public class ScaleHpSystem(EcsApi ecs) : ModSystemBase
         set => Volatile.Write(ref field, value);
     } = 100;
 
-    protected override void OnUpdate(UpdateTick tick)
+    private void Update()
     {
-        if (_tick++ % TickInterval != 0)
+        if (Time.Ticks % TickInterval != 0)
             return;
 
         // count all players in game, not just the area
         var players = 0;
-        ecs.Query<MainCharacterComponent, int>(ref players, static (ref _, ref p) => { p++; });
 
+        foreach (var _ in entities.Query<MainCharacter>())
+        {
+            players++;
+        }
+        
         if (players == 0)
             return;
 
-        var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, tick.Time);
+        var targetScalingPercent = ScalingPercent * ResolvePlayerCount(players, Time.Elapsed);
 
-        ecs.Query<TamerComponent, HpComponent, int>(ref targetScalingPercent, static (ref tamer, ref hp, ref target) =>
+        foreach (var tamer in entities.Query<Tamer>())
         {
             if (!tamer.IsBossOrElite)
-                return;
+                continue;
 
             // HpMaxBase is 0 in ECS until the owner has reported it.
-            if (hp.IsDead || hp.HpMaxBase <= 0)
-                return;
+            if (tamer.IsDead || tamer.HpMaxBase <= 0)
+                continue;
 
             if (tamer.Guid == "UGuid.HFS.Niu.Teacher")
-                return; // Bullguard's cutscene is a softlock if he has scaled HP
+                continue; // Bullguard's cutscene is a softlock if he has scaled HP
 
-            hp.HpMaxMulPercent = target;
-        });
+            tamer.HpMaxMulPercent = targetScalingPercent;
+        }
     }
 
     private int ResolvePlayerCount(int players, float now)

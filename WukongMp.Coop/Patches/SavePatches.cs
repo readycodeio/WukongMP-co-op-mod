@@ -21,7 +21,7 @@ public class PatchWindowsSaveGame
         if (!SlotName.StartsWith("ArchiveSaveFile"))
             return true;
         
-        __result = FPaths.Combine(WukongApi.Files.GetModDirectory<Mod>(), $"{SlotName}.sav");
+        __result = FPaths.Combine(WukongApi.Services.Resolve<Mod>().ModDirectory, $"{SlotName}.sav");
         return false;
     }
 }
@@ -67,7 +67,7 @@ public class PatchGSWindowsPlatformSaveGame
 {
     private static bool Prefix(List<byte> InSaveData, string SlotName, string UserId, ref bool __result)
     {
-        if (!WukongApi.Sync.InArea)
+        if (!WukongApi.Entities.InArea)
             return true;
 
         if (!SlotName.StartsWith("ArchiveSaveFile"))
