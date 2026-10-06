@@ -12,7 +12,7 @@ namespace WukongMp.Coop;
 [ModEntry]
 public sealed partial class Mod(IDependencyContainer services, ILogger logger)
 {
-    private void Start()
+    private void Init()
     {
         // Launcher will set SERVER_ID when playing on hosted ReadyM servers
         if (WukongApi.Configuration.GetLaunchParameter("SERVER_ID", "") != "")
