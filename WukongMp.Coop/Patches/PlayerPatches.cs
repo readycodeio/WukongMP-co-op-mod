@@ -7,7 +7,7 @@ using WukongMp.Api;
 using WukongMp.Api.Configuration;
 using WukongMp.Coop.Configuration;
 using WukongMp.Sdk.Api;
-using WukongMp.Sdk.Entities;
+using WukongMp.Sdk.Archetypes.Mixins;
 
 namespace WukongMp.Coop.Patches;
 
@@ -17,7 +17,7 @@ public class PatchDisableCollision
 {
     public static void Postfix(BUS_QuestDynamicObstacleComp __instance)
     {
-        if (!WukongApi.Sync.InArea)
+        if (!WukongApi.Entities.InArea)
             return;
 
         var obstacle = __instance.GetOwner();
@@ -31,7 +31,7 @@ public class PatchCheckCanTrigger_HitDynamicObstacleWall
 {
     public static bool Prefix(BUS_TouchWallFeedbackComp __instance, AActor HitActor)
     {
-        if (!WukongApi.Sync.InArea)
+        if (!WukongApi.Entities.InArea)
             return true;
 
         var questActor = HitActor as BGU_QuestActor;
@@ -45,7 +45,7 @@ public class PatchCheckCanTrigger_HitDynamicObstacleWall
         if (player == null)
             return true;
 
-        if (player != WukongApi.Sync.LocalMainCharacter?.Pawn)
+        if (player != WukongApi.Entities.LocalMainCharacter?.Pawn)
             return true;
 
         var bossActor = GetClosestBossActor(player, player.GetActorLocation());
